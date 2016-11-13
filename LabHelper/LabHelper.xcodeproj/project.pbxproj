@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		C8B4C57BEC88A1F2F0986712 /* libPods-LabHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D201B7D06AA0B833F79E175E /* libPods-LabHelper.a */; };
+		DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1642AB1DD4BA4E00E21198 /* NSString+MD5Encrypt.m */; };
 		DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */; };
+		DBA66F151DD8AFAB0059F7FF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */; };
+		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
 		DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */; };
 		DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF7B7D61DCCB24D005099B9 /* Main.storyboard */; };
-		DBF7B7DA1DCCB24D005099B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBF7B7D91DCCB24D005099B9 /* Assets.xcassets */; };
 		DBF7B7DD1DCCB24D005099B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF7B7DB1DCCB24D005099B9 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -20,16 +22,20 @@
 		412484908B749AF4455A5610 /* Pods-LabHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LabHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LabHelper/Pods-LabHelper.debug.xcconfig"; sourceTree = "<group>"; };
 		AEE9F6AFBCDB4AC18D9819D7 /* Pods-LabHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LabHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-LabHelper/Pods-LabHelper.release.xcconfig"; sourceTree = "<group>"; };
 		D201B7D06AA0B833F79E175E /* libPods-LabHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LabHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB1642AA1DD4BA4E00E21198 /* NSString+MD5Encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MD5Encrypt.h"; path = "LabHelper/Category/NSString+MD5Encrypt.h"; sourceTree = "<group>"; };
+		DB1642AB1DD4BA4E00E21198 /* NSString+MD5Encrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MD5Encrypt.m"; path = "LabHelper/Category/NSString+MD5Encrypt.m"; sourceTree = "<group>"; };
 		DB4215431DCD7DA2005D6E13 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DB4215441DCD8474005D6E13 /* AppMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		DB4215471DCD8BAF005D6E13 /* LoginInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInViewController.h; sourceTree = "<group>"; };
 		DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginInViewController.m; sourceTree = "<group>"; };
+		DBA66F131DD8AFAB0059F7FF /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePageViewController.h; path = Home/HomePageViewController.h; sourceTree = "<group>"; };
+		DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePageViewController.m; path = Home/HomePageViewController.m; sourceTree = "<group>"; };
+		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBF7B7CA1DCCB24D005099B9 /* LabHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF7B7CE1DCCB24D005099B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DBF7B7D01DCCB24D005099B9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DBF7B7D71DCCB24D005099B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DBF7B7D91DCCB24D005099B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBF7B7DC1DCCB24D005099B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DBF7B7DE1DCCB24D005099B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +69,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DB1642A91DD4B9B800E21198 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				DB1642AA1DD4BA4E00E21198 /* NSString+MD5Encrypt.h */,
+				DB1642AB1DD4BA4E00E21198 /* NSString+MD5Encrypt.m */,
+			);
+			name = Category;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		DB42153F1DCD7916005D6E13 /* General */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +97,7 @@
 		DB4215411DCD7916005D6E13 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				DBA66F161DD8AFBB0059F7FF /* Home */,
 				DB4215461DCD8B89005D6E13 /* LoginIn */,
 			);
 			path = Sections;
@@ -100,6 +117,15 @@
 				DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */,
 			);
 			path = LoginIn;
+			sourceTree = "<group>";
+		};
+		DBA66F161DD8AFBB0059F7FF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				DBA66F131DD8AFAB0059F7FF /* HomePageViewController.h */,
+				DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */,
+			);
+			name = Home;
 			sourceTree = "<group>";
 		};
 		DBF7B7C11DCCB24D005099B9 = {
@@ -123,6 +149,7 @@
 		DBF7B7CC1DCCB24D005099B9 /* LabHelper */ = {
 			isa = PBXGroup;
 			children = (
+				DB1642A91DD4B9B800E21198 /* Category */,
 				DB4215401DCD7916005D6E13 /* Macro */,
 				DB42153F1DCD7916005D6E13 /* General */,
 				DB4215421DCD7916005D6E13 /* Vendors */,
@@ -130,7 +157,7 @@
 				DBF7B7D01DCCB24D005099B9 /* AppDelegate.h */,
 				DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */,
 				DBF7B7D61DCCB24D005099B9 /* Main.storyboard */,
-				DBF7B7D91DCCB24D005099B9 /* Assets.xcassets */,
+				DBA66F171DD8B41A0059F7FF /* Assets.xcassets */,
 				DBF7B7DB1DCCB24D005099B9 /* LaunchScreen.storyboard */,
 				DBF7B7DE1DCCB24D005099B9 /* Info.plist */,
 				DBF7B7CD1DCCB24D005099B9 /* Supporting Files */,
@@ -210,7 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBF7B7DD1DCCB24D005099B9 /* LaunchScreen.storyboard in Resources */,
-				DBF7B7DA1DCCB24D005099B9 /* Assets.xcassets in Resources */,
+				DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */,
 				DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +299,8 @@
 			files = (
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
 				DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */,
+				DBA66F151DD8AFAB0059F7FF /* HomePageViewController.m in Sources */,
+				DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */,
 				DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

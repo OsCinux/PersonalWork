@@ -9,7 +9,9 @@
 #ifndef AppMacro_h
 #define AppMacro_h
 
-#define KLoginAddres @"https://202.115.207.95:8080/appService.ashx"
+#define KLoginAddress @"http://202.115.207.95:8080/login.ashx"
+#define KGetSecondPasswordAddress @"http://202.115.207.95:8080/getpass.ashx"
+#define KLoginCode   @"d44fe"
 
 
 
