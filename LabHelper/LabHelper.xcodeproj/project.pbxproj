@@ -10,7 +10,13 @@
 		C8B4C57BEC88A1F2F0986712 /* libPods-LabHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D201B7D06AA0B833F79E175E /* libPods-LabHelper.a */; };
 		DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1642AB1DD4BA4E00E21198 /* NSString+MD5Encrypt.m */; };
 		DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */; };
-		DBA66F151DD8AFAB0059F7FF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */; };
+		DB945C0F1DE001EE00ABAEBF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C0E1DE001EE00ABAEBF /* SettingViewController.m */; };
+		DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C111DE0020300ABAEBF /* HomeViewController.m */; };
+		DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C151DE0115900ABAEBF /* QRScanViewController.m */; };
+		DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C181DE0124C00ABAEBF /* QRScanView.m */; };
+		DB945C1F1DE02C1A00ABAEBF /* GuestInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */; };
+		DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */; };
+		DB945C261DE032D300ABAEBF /* GuestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
 		DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */; };
@@ -28,8 +34,19 @@
 		DB4215441DCD8474005D6E13 /* AppMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		DB4215471DCD8BAF005D6E13 /* LoginInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInViewController.h; sourceTree = "<group>"; };
 		DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginInViewController.m; sourceTree = "<group>"; };
-		DBA66F131DD8AFAB0059F7FF /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePageViewController.h; path = Home/HomePageViewController.h; sourceTree = "<group>"; };
-		DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePageViewController.m; path = Home/HomePageViewController.m; sourceTree = "<group>"; };
+		DB945C0D1DE001EE00ABAEBF /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Me/SettingViewController.h; sourceTree = "<group>"; };
+		DB945C0E1DE001EE00ABAEBF /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Me/SettingViewController.m; sourceTree = "<group>"; };
+		DB945C101DE0020300ABAEBF /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/HomeViewController.h; sourceTree = "<group>"; };
+		DB945C111DE0020300ABAEBF /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = Home/HomeViewController.m; sourceTree = "<group>"; };
+		DB945C141DE0115900ABAEBF /* QRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QRScanViewController.h; path = LabHelper/Sections/Scan/QRScanViewController.h; sourceTree = SOURCE_ROOT; };
+		DB945C151DE0115900ABAEBF /* QRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRScanViewController.m; path = LabHelper/Sections/Scan/QRScanViewController.m; sourceTree = SOURCE_ROOT; };
+		DB945C171DE0124C00ABAEBF /* QRScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScanView.h; sourceTree = "<group>"; };
+		DB945C181DE0124C00ABAEBF /* QRScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRScanView.m; sourceTree = "<group>"; };
+		DB945C1D1DE02C1A00ABAEBF /* GuestInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestInfoModel.h; sourceTree = "<group>"; };
+		DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestInfoModel.m; sourceTree = "<group>"; };
+		DB945C221DE032D300ABAEBF /* GuestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestTableViewCell.h; path = Home/GuestTableViewCell.h; sourceTree = "<group>"; };
+		DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestTableViewCell.m; path = Home/GuestTableViewCell.m; sourceTree = "<group>"; };
+		DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuestTableViewCell.xib; path = Home/GuestTableViewCell.xib; sourceTree = "<group>"; };
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBF7B7CA1DCCB24D005099B9 /* LabHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF7B7CE1DCCB24D005099B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,7 +114,10 @@
 		DB4215411DCD7916005D6E13 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				DB945C0C1DDF4D3B00ABAEBF /* Model */,
+				DB945C0B1DDF4D1200ABAEBF /* Setting */,
 				DBA66F161DD8AFBB0059F7FF /* Home */,
+				DB945C131DE0113B00ABAEBF /* Scan */,
 				DB4215461DCD8B89005D6E13 /* LoginIn */,
 			);
 			path = Sections;
@@ -119,11 +139,60 @@
 			path = LoginIn;
 			sourceTree = "<group>";
 		};
+		DB945C0B1DDF4D1200ABAEBF /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				DB945C0D1DE001EE00ABAEBF /* SettingViewController.h */,
+				DB945C0E1DE001EE00ABAEBF /* SettingViewController.m */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		DB945C0C1DDF4D3B00ABAEBF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DB945C1D1DE02C1A00ABAEBF /* GuestInfoModel.h */,
+				DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DB945C131DE0113B00ABAEBF /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				DB945C141DE0115900ABAEBF /* QRScanViewController.h */,
+				DB945C151DE0115900ABAEBF /* QRScanViewController.m */,
+				DB945C171DE0124C00ABAEBF /* QRScanView.h */,
+				DB945C181DE0124C00ABAEBF /* QRScanView.m */,
+			);
+			name = Scan;
+			path = LoginIn;
+			sourceTree = "<group>";
+		};
+		DB945C201DE0325000ABAEBF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DB945C101DE0020300ABAEBF /* HomeViewController.h */,
+				DB945C111DE0020300ABAEBF /* HomeViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		DB945C211DE0325A00ABAEBF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DB945C221DE032D300ABAEBF /* GuestTableViewCell.h */,
+				DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */,
+				DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		DBA66F161DD8AFBB0059F7FF /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				DBA66F131DD8AFAB0059F7FF /* HomePageViewController.h */,
-				DBA66F141DD8AFAB0059F7FF /* HomePageViewController.m */,
+				DB945C211DE0325A00ABAEBF /* View */,
+				DB945C201DE0325000ABAEBF /* Controller */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -208,7 +277,7 @@
 				TargetAttributes = {
 					DBF7B7C91DCCB24D005099B9 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = SFPZ2CUJ62;
+						DevelopmentTeam = 2VLQ5AZ3L2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -238,6 +307,7 @@
 			files = (
 				DBF7B7DD1DCCB24D005099B9 /* LaunchScreen.storyboard in Resources */,
 				DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */,
+				DB945C261DE032D300ABAEBF /* GuestTableViewCell.xib in Resources */,
 				DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,11 +367,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB945C1F1DE02C1A00ABAEBF /* GuestInfoModel.m in Sources */,
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
+				DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */,
+				DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */,
+				DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */,
 				DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */,
-				DBA66F151DD8AFAB0059F7FF /* HomePageViewController.m in Sources */,
 				DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */,
 				DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */,
+				DB945C0F1DE001EE00ABAEBF /* SettingViewController.m in Sources */,
+				DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +495,7 @@
 			baseConfigurationReference = 412484908B749AF4455A5610 /* Pods-LabHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = SFPZ2CUJ62;
+				DEVELOPMENT_TEAM = 2VLQ5AZ3L2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LabHelper/PrefixHeader.pch";
 				INFOPLIST_FILE = LabHelper/Info.plist;
@@ -428,7 +503,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = meitu.com.LabHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -437,7 +512,7 @@
 			baseConfigurationReference = AEE9F6AFBCDB4AC18D9819D7 /* Pods-LabHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = SFPZ2CUJ62;
+				DEVELOPMENT_TEAM = 2VLQ5AZ3L2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LabHelper/PrefixHeader.pch";
 				INFOPLIST_FILE = LabHelper/Info.plist;
@@ -445,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = meitu.com.LabHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
