@@ -14,7 +14,8 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataList;
-@property (nonatomic, strong) UIButton *addGuest;
+@property (nonatomic, strong) UIButton *addGuestButton;
+@property (nonatomic, strong) UIView *footerView;
 
 @end
 
@@ -35,28 +36,44 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 #pragma mark init
 - (void)setUpViews {
     self.tableView.delegate = self;
-    self.addGuest = ({
+    self.tableView.dataSource = self;
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100)];
+    self.tableView.tableFooterView = self.footerView;
+    self.addGuestButton = ({
         UIButton *button = [UIButton new];
-        
+        [button setImage:[UIImage imageNamed:@"btn_add_normal"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"btn_add_highlight"] forState:UIControlStateHighlighted];
+        [button addTarget:self action:NSSelectorFromString(@"actionAddGuest") forControlEvents:UIControlEventTouchUpInside];
+        [self.footerView addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(@66);
+            make.height.mas_equalTo(@50);
+            make.center.mas_equalTo(self.footerView);
+        }];
         button;
     });
-   // self.tableView.tableFooterView = [];
+    [self.footerView addSubview:self.addGuestButton];
 }
 
 - (void)setUpData {
     self.dataList = [[NSMutableArray alloc] init];
+    
+    
 }
 
-
-
 #pragma mark - Actions
+
+- (void)actionAddGuest {
+    NSLog(@"点击添加");
+}
 
 #pragma mark UITableViewDelegate
 
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   return  self.dataList.count;
+    
+    return  10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
