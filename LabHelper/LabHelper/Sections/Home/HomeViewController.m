@@ -37,27 +37,20 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 - (void)setUpViews {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100)];
-    self.tableView.tableFooterView = self.footerView;
-    self.addGuestButton = ({
-        UIButton *button = [UIButton new];
-        [button setImage:[UIImage imageNamed:@"btn_add_normal"] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:@"btn_add_highlight"] forState:UIControlStateHighlighted];
-        [button addTarget:self action:NSSelectorFromString(@"actionAddGuest") forControlEvents:UIControlEventTouchUpInside];
-        [self.footerView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(@66);
-            make.height.mas_equalTo(@50);
-            make.center.mas_equalTo(self.footerView);
-        }];
-        button;
-    });
-    [self.footerView addSubview:self.addGuestButton];
+    self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)setUpData {
     self.dataList = [[NSMutableArray alloc] init];
-    
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:KUserID,@"userid",KToken,@"token", nil];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:KGetGuestListAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     
 }
 

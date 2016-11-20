@@ -29,18 +29,10 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupViews];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-
-}
-
-
-#pragma mark init
-
-- (void)setupViews {
 
 }
 
@@ -52,6 +44,9 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
         [self loginWithUserName:self.userNameTextField.text Password:self.passWordTextField.text complete:^(BOOL reslut,NSString *description) {
             if (reslut) {
                 [self showHUDWithMessage:@"登录成功"];
+                [self performSegueWithIdentifier:@"pushToHome" sender:nil];
+                
+                
             }else {
                 [self showHUDWithMessage:description];
             }
@@ -96,6 +91,11 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
       [manager GET:KLoginAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *dic = responseObject;
+            NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
+            [uts setObject:userID forKey:KUserID];
+            [uts setObject:[self generateMD5tokenWithPassword:password
+                                                       Token2:dic[@"NewToken"]]
+                                                       forKey:KToken];
             completeHandle(dic[@"Result"],dic[@"Remark"]);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [self showHUDWithMessage:@"登录网络错误"];
@@ -174,17 +174,12 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
     
 }
 
-
-
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
 }
-*/
+
 
 @end

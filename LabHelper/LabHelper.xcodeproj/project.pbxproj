@@ -14,9 +14,10 @@
 		DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C111DE0020300ABAEBF /* HomeViewController.m */; };
 		DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C151DE0115900ABAEBF /* QRScanViewController.m */; };
 		DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C181DE0124C00ABAEBF /* QRScanView.m */; };
-		DB945C1F1DE02C1A00ABAEBF /* GuestInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */; };
 		DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */; };
 		DB945C261DE032D300ABAEBF /* GuestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */; };
+		DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C281DE1F51000ABAEBF /* ClientModel.m */; };
+		DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
 		DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */; };
@@ -42,11 +43,13 @@
 		DB945C151DE0115900ABAEBF /* QRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRScanViewController.m; path = LabHelper/Sections/Scan/QRScanViewController.m; sourceTree = SOURCE_ROOT; };
 		DB945C171DE0124C00ABAEBF /* QRScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScanView.h; sourceTree = "<group>"; };
 		DB945C181DE0124C00ABAEBF /* QRScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRScanView.m; sourceTree = "<group>"; };
-		DB945C1D1DE02C1A00ABAEBF /* GuestInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestInfoModel.h; sourceTree = "<group>"; };
-		DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestInfoModel.m; sourceTree = "<group>"; };
 		DB945C221DE032D300ABAEBF /* GuestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestTableViewCell.h; path = Home/GuestTableViewCell.h; sourceTree = "<group>"; };
 		DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestTableViewCell.m; path = Home/GuestTableViewCell.m; sourceTree = "<group>"; };
 		DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuestTableViewCell.xib; path = Home/GuestTableViewCell.xib; sourceTree = "<group>"; };
+		DB945C271DE1F51000ABAEBF /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
+		DB945C281DE1F51000ABAEBF /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
+		DB945C2A1DE1F55F00ABAEBF /* ClientInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientInfoModel.h; sourceTree = "<group>"; };
+		DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientInfoModel.m; sourceTree = "<group>"; };
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBF7B7CA1DCCB24D005099B9 /* LabHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF7B7CE1DCCB24D005099B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -151,8 +154,10 @@
 		DB945C0C1DDF4D3B00ABAEBF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DB945C1D1DE02C1A00ABAEBF /* GuestInfoModel.h */,
-				DB945C1E1DE02C1A00ABAEBF /* GuestInfoModel.m */,
+				DB945C2A1DE1F55F00ABAEBF /* ClientInfoModel.h */,
+				DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */,
+				DB945C271DE1F51000ABAEBF /* ClientModel.h */,
+				DB945C281DE1F51000ABAEBF /* ClientModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -367,13 +372,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB945C1F1DE02C1A00ABAEBF /* GuestInfoModel.m in Sources */,
+				DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */,
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
 				DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */,
 				DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */,
 				DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */,
 				DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */,
 				DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */,
+				DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */,
 				DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */,
 				DB945C0F1DE001EE00ABAEBF /* SettingViewController.m in Sources */,
 				DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */,
