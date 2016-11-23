@@ -7,13 +7,17 @@
 //
 
 #import "HomeViewController.h"
+#import "ClientModel.h"
+
+
 
 static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 @interface HomeViewController ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataList;
+@property (nonatomic, strong) NSMutableArray *guestList;
+@property (nonatomic, strong) NSMutableArray *guestInfoList;
 @property (nonatomic, strong) UIButton *addGuestButton;
 @property (nonatomic, strong) UIView *footerView;
 
@@ -41,32 +45,40 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 }
 
 - (void)setUpData {
-    self.dataList = [[NSMutableArray alloc] init];
-    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:KUserID,@"userid",KToken,@"token", nil];
+    self.guestList = [[NSMutableArray alloc] init];
+    self.guestInfoList = [[NSMutableArray alloc] init];
+    NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:KGetGuestListAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSArray *modelArray = responseObject[@"ClientsData"];
+        for (NSDictionary *dic in modelArray) {
+            ClientModel *model = [ClientModel modelObjectWithDictionary:dic];
+            [self.guestList addObject:model];
+        }
+        [self.tableView reloadData];
+        NSLog(@"获取数据成功");
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        NSLog(@"获取数据失败");
     }];
     
 }
 
-#pragma mark - Actions
-
-- (void)actionAddGuest {
-    NSLog(@"点击添加");
-}
-
 #pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+}
 
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return  10;
+    return  self.guestList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,6 +86,9 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kGuestCellResueIdentifier];
     }
+    ClientModel *model = self.guestList[indexPath.row];
+    cell.textLabel.text = model.ciName;
+    cell.imageView.image = [UIImage imageNamed:@"QRCode"];
     return cell;
 }
 

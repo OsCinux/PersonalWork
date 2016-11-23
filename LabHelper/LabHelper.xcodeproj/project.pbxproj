@@ -14,11 +14,10 @@
 		DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C111DE0020300ABAEBF /* HomeViewController.m */; };
 		DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C151DE0115900ABAEBF /* QRScanViewController.m */; };
 		DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C181DE0124C00ABAEBF /* QRScanView.m */; };
-		DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */; };
-		DB945C261DE032D300ABAEBF /* GuestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */; };
 		DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C281DE1F51000ABAEBF /* ClientModel.m */; };
 		DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
+		DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
 		DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */; };
 		DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF7B7D61DCCB24D005099B9 /* Main.storyboard */; };
@@ -43,14 +42,13 @@
 		DB945C151DE0115900ABAEBF /* QRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRScanViewController.m; path = LabHelper/Sections/Scan/QRScanViewController.m; sourceTree = SOURCE_ROOT; };
 		DB945C171DE0124C00ABAEBF /* QRScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScanView.h; sourceTree = "<group>"; };
 		DB945C181DE0124C00ABAEBF /* QRScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRScanView.m; sourceTree = "<group>"; };
-		DB945C221DE032D300ABAEBF /* GuestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestTableViewCell.h; path = Home/GuestTableViewCell.h; sourceTree = "<group>"; };
-		DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestTableViewCell.m; path = Home/GuestTableViewCell.m; sourceTree = "<group>"; };
-		DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuestTableViewCell.xib; path = Home/GuestTableViewCell.xib; sourceTree = "<group>"; };
 		DB945C271DE1F51000ABAEBF /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
 		DB945C281DE1F51000ABAEBF /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
 		DB945C2A1DE1F55F00ABAEBF /* ClientInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientInfoModel.h; sourceTree = "<group>"; };
 		DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientInfoModel.m; sourceTree = "<group>"; };
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DBB604B71DE5E624003D8933 /* GuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestDetailViewController.h; path = Home/GuestDetailViewController.h; sourceTree = "<group>"; };
+		DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestDetailViewController.m; path = Home/GuestDetailViewController.m; sourceTree = "<group>"; };
 		DBF7B7CA1DCCB24D005099B9 /* LabHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF7B7CE1DCCB24D005099B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DBF7B7D01DCCB24D005099B9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -179,6 +177,8 @@
 			children = (
 				DB945C101DE0020300ABAEBF /* HomeViewController.h */,
 				DB945C111DE0020300ABAEBF /* HomeViewController.m */,
+				DBB604B71DE5E624003D8933 /* GuestDetailViewController.h */,
+				DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -186,9 +186,6 @@
 		DB945C211DE0325A00ABAEBF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DB945C221DE032D300ABAEBF /* GuestTableViewCell.h */,
-				DB945C231DE032D300ABAEBF /* GuestTableViewCell.m */,
-				DB945C241DE032D300ABAEBF /* GuestTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -312,7 +309,6 @@
 			files = (
 				DBF7B7DD1DCCB24D005099B9 /* LaunchScreen.storyboard in Resources */,
 				DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */,
-				DB945C261DE032D300ABAEBF /* GuestTableViewCell.xib in Resources */,
 				DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,10 +369,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */,
+				DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */,
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
 				DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */,
 				DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */,
-				DB945C251DE032D300ABAEBF /* GuestTableViewCell.m in Sources */,
 				DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */,
 				DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */,
 				DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */,
