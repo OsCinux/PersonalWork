@@ -10,6 +10,6 @@
 
 @interface GuestDetailViewController : UIViewController
 
-@property (nonatomic, strong)NSMutableArray *modelArraylist;
+@property (nonatomic, strong)NSString *ciid;
 
 @end

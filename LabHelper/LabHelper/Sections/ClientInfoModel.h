@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong) NSString *ciname;
 @property (nonatomic, strong) NSString *ciphone;
-@property (nonatomic, assign) id clientsImageData;
+@property (nonatomic, strong) NSMutableArray *clientsImageData;
 @property (nonatomic, assign) double clientImagesCount;
 @property (nonatomic, strong) NSString *remark;
 

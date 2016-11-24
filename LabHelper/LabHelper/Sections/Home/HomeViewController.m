@@ -7,13 +7,15 @@
 //
 
 #import "HomeViewController.h"
+#import "GuestDetailViewController.h"
 #import "ClientModel.h"
 
 
 
 static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
-@interface HomeViewController ()
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
+
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *guestList;
@@ -70,14 +72,14 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+   
+    ClientModel *model = self.guestList[indexPath.row];
+    [self performSegueWithIdentifier:@"showCustomDetail" sender:model];
 }
 
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return  self.guestList.count;
 }
 
@@ -92,15 +94,12 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     return cell;
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    ClientModel *model = sender;
+    if ([segue.identifier isEqualToString:@"showCustomDetail"]) {
+        GuestDetailViewController *vc = segue.destinationViewController;
+        vc.ciid = model.ciId;
+    }
 }
-*/
 
 @end

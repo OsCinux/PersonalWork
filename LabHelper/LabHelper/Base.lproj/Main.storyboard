@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -112,9 +111,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qFC-i7-0qP">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qFC-i7-0qP">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="975"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="iSf-Uq-ezB" id="fJc-g3-RdP"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -207,7 +209,7 @@
         <!--Guest Detail View Controller-->
         <scene sceneID="xSK-Ox-Hpu">
             <objects>
-                <viewController id="p74-mD-4FL" customClass="GuestDetailViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="p74-mD-4FL" customClass="GuestDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="w8U-tg-zwf"/>
                         <viewControllerLayoutGuide type="bottom" id="xO6-bG-jR1"/>
@@ -216,8 +218,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BaG-pK-EBX">
-                                <rect key="frame" x="20" y="64" width="728" height="911"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BaG-pK-EBX">
+                                <rect key="frame" x="0.0" y="64" width="768" height="911"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GYX-US-RGH">
                                     <size key="itemSize" width="200" height="130"/>
@@ -226,7 +228,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="JIC-Is-ZiE">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="kDetailIndetifier" id="JIC-Is-ZiE">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="130"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -243,14 +245,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BaG-pK-EBX" firstAttribute="leading" secondItem="t2U-oF-1c5" secondAttribute="leadingMargin" id="6ct-bU-Wxj"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BaG-pK-EBX" secondAttribute="trailing" id="7xo-dT-pit"/>
+                            <constraint firstItem="BaG-pK-EBX" firstAttribute="leading" secondItem="t2U-oF-1c5" secondAttribute="leading" id="7BD-5g-JI0"/>
                             <constraint firstItem="BaG-pK-EBX" firstAttribute="top" secondItem="w8U-tg-zwf" secondAttribute="bottom" id="GVe-rk-H5N"/>
                             <constraint firstItem="xO6-bG-jR1" firstAttribute="top" secondItem="BaG-pK-EBX" secondAttribute="bottom" id="b9I-GG-aE9"/>
+                            <constraint firstAttribute="trailing" secondItem="BaG-pK-EBX" secondAttribute="trailing" id="dIh-YR-EeL"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="DetaiCollectionView" destination="BaG-pK-EBX" id="GWM-yD-MrY"/>
+                        <outlet property="detaiCollectionView" destination="BaG-pK-EBX" id="Odk-qI-TGG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kdc-0E-alz" userLabel="First Responder" sceneMemberID="firstResponder"/>
