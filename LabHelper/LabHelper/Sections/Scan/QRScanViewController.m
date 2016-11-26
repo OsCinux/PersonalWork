@@ -21,6 +21,19 @@
 
 @implementation QRScanViewController
 
+#pragma mark -lifeCycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self setup];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
 #pragma mark - Actions
 
 - (IBAction)pickAction:(UIBarButtonItem *)sender {
@@ -150,22 +163,6 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     alertView.delegate = self;
     [alertView show];
-}
-
-#pragma mark -
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self setup];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (void)dealloc {
-    NSLog(@"%s", __func__);
 }
 
 @end

@@ -96,7 +96,8 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
             [uts setObject:[self generateMD5tokenWithPassword:password
                                                        Token2:dic[@"NewToken"]]
                                                        forKey:KToken];
-            completeHandle(dic[@"Result"],dic[@"Remark"]);
+            BOOL result = [dic[@"Result"] isEqualToString:@"false"] ? NO : YES;
+            completeHandle(result,dic[@"Remark"]);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [self showHUDWithMessage:@"登录网络错误"];
             sleep(5);

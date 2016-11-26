@@ -11,11 +11,9 @@
 #import "ClientModel.h"
 
 
-
 static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
-
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *guestList;
