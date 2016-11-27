@@ -10,12 +10,12 @@
 		C8B4C57BEC88A1F2F0986712 /* libPods-LabHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D201B7D06AA0B833F79E175E /* libPods-LabHelper.a */; };
 		DB1642AC1DD4BA4E00E21198 /* NSString+MD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1642AB1DD4BA4E00E21198 /* NSString+MD5Encrypt.m */; };
 		DB4215491DCD8BAF005D6E13 /* LoginInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */; };
+		DB73ED131DEB1CE200657964 /* ClientInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB73ED121DEB1CE200657964 /* ClientInfoModel.m */; };
 		DB945C0F1DE001EE00ABAEBF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C0E1DE001EE00ABAEBF /* SettingViewController.m */; };
 		DB945C121DE0020300ABAEBF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C111DE0020300ABAEBF /* HomeViewController.m */; };
 		DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C151DE0115900ABAEBF /* QRScanViewController.m */; };
 		DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C181DE0124C00ABAEBF /* QRScanView.m */; };
 		DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C281DE1F51000ABAEBF /* ClientModel.m */; };
-		DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
 		DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
@@ -34,6 +34,8 @@
 		DB4215441DCD8474005D6E13 /* AppMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMacro.h; sourceTree = "<group>"; };
 		DB4215471DCD8BAF005D6E13 /* LoginInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInViewController.h; sourceTree = "<group>"; };
 		DB4215481DCD8BAF005D6E13 /* LoginInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginInViewController.m; sourceTree = "<group>"; };
+		DB73ED111DEB1CE200657964 /* ClientInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientInfoModel.h; sourceTree = "<group>"; };
+		DB73ED121DEB1CE200657964 /* ClientInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientInfoModel.m; sourceTree = "<group>"; };
 		DB945C0D1DE001EE00ABAEBF /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Me/SettingViewController.h; sourceTree = "<group>"; };
 		DB945C0E1DE001EE00ABAEBF /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Me/SettingViewController.m; sourceTree = "<group>"; };
 		DB945C101DE0020300ABAEBF /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/HomeViewController.h; sourceTree = "<group>"; };
@@ -44,8 +46,6 @@
 		DB945C181DE0124C00ABAEBF /* QRScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRScanView.m; sourceTree = "<group>"; };
 		DB945C271DE1F51000ABAEBF /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
 		DB945C281DE1F51000ABAEBF /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
-		DB945C2A1DE1F55F00ABAEBF /* ClientInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientInfoModel.h; sourceTree = "<group>"; };
-		DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientInfoModel.m; sourceTree = "<group>"; };
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBB604B71DE5E624003D8933 /* GuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestDetailViewController.h; path = Home/GuestDetailViewController.h; sourceTree = "<group>"; };
 		DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestDetailViewController.m; path = Home/GuestDetailViewController.m; sourceTree = "<group>"; };
@@ -152,8 +152,8 @@
 		DB945C0C1DDF4D3B00ABAEBF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DB945C2A1DE1F55F00ABAEBF /* ClientInfoModel.h */,
-				DB945C2B1DE1F55F00ABAEBF /* ClientInfoModel.m */,
+				DB73ED111DEB1CE200657964 /* ClientInfoModel.h */,
+				DB73ED121DEB1CE200657964 /* ClientInfoModel.m */,
 				DB945C271DE1F51000ABAEBF /* ClientModel.h */,
 				DB945C281DE1F51000ABAEBF /* ClientModel.m */,
 			);
@@ -368,7 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB945C2C1DE1F55F00ABAEBF /* ClientInfoModel.m in Sources */,
+				DB73ED131DEB1CE200657964 /* ClientInfoModel.m in Sources */,
 				DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */,
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
 				DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */,
@@ -497,13 +497,14 @@
 			baseConfigurationReference = 412484908B749AF4455A5610 /* Pods-LabHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2VLQ5AZ3L2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LabHelper/PrefixHeader.pch";
 				INFOPLIST_FILE = LabHelper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = meitu.com.LabHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = jackmen.com.LabHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -514,13 +515,14 @@
 			baseConfigurationReference = AEE9F6AFBCDB4AC18D9819D7 /* Pods-LabHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2VLQ5AZ3L2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LabHelper/PrefixHeader.pch";
 				INFOPLIST_FILE = LabHelper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = meitu.com.LabHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = jackmen.com.LabHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

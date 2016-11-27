@@ -15,5 +15,6 @@
 #import "AppMacro.h"
 #import <Masonry.h>
 #import <AFNetworking.h>
+#import <MBProgressHUD.h>
 
 #endif /* PrefixHeader_pch */

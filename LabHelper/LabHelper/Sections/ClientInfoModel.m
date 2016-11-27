@@ -1,13 +1,14 @@
 //
 //  ClientInfoModel.m
 //
-//  Created by ljc  on 2016/11/20
+//  Created by ljc  on 2016/11/27
 //  Copyright (c) 2016 meitu.com. All rights reserved.
 //
 
 #import "ClientInfoModel.h"
 
 
+NSString *const kClientInfoModelIsNewClient = @"isNewClient";
 NSString *const kClientInfoModelCiname = @"ciname";
 NSString *const kClientInfoModelCiphone = @"ciphone";
 NSString *const kClientInfoModelClientsImageData = @"ClientsImageData";
@@ -23,6 +24,7 @@ NSString *const kClientInfoModelRemark = @"remark";
 
 @implementation ClientInfoModel
 
+@synthesize isNewClient = _isNewClient;
 @synthesize ciname = _ciname;
 @synthesize ciphone = _ciphone;
 @synthesize clientsImageData = _clientsImageData;
@@ -40,6 +42,7 @@ NSString *const kClientInfoModelRemark = @"remark";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if (self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.isNewClient = [[self objectOrNilForKey:kClientInfoModelIsNewClient fromDictionary:dict] integerValue];
             self.ciname = [self objectOrNilForKey:kClientInfoModelCiname fromDictionary:dict];
             self.ciphone = [self objectOrNilForKey:kClientInfoModelCiphone fromDictionary:dict];
             self.clientsImageData = [self objectOrNilForKey:kClientInfoModelClientsImageData fromDictionary:dict];
@@ -54,9 +57,21 @@ NSString *const kClientInfoModelRemark = @"remark";
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.isNewClient] forKey:kClientInfoModelIsNewClient];
     [mutableDict setValue:self.ciname forKey:kClientInfoModelCiname];
     [mutableDict setValue:self.ciphone forKey:kClientInfoModelCiphone];
-    [mutableDict setValue:self.clientsImageData forKey:kClientInfoModelClientsImageData];
+    NSMutableArray *tempArrayForClientsImageData = [NSMutableArray array];
+    
+    for (NSObject *subArrayObject in self.clientsImageData) {
+        if ([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForClientsImageData addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForClientsImageData addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForClientsImageData] forKey:kClientInfoModelClientsImageData];
     [mutableDict setValue:[NSNumber numberWithDouble:self.clientImagesCount] forKey:kClientInfoModelClientImagesCount];
     [mutableDict setValue:self.remark forKey:kClientInfoModelRemark];
 
@@ -79,6 +94,7 @@ NSString *const kClientInfoModelRemark = @"remark";
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
 
+    self.isNewClient = [aDecoder decodeIntegerForKey:kClientInfoModelIsNewClient];
     self.ciname = [aDecoder decodeObjectForKey:kClientInfoModelCiname];
     self.ciphone = [aDecoder decodeObjectForKey:kClientInfoModelCiphone];
     self.clientsImageData = [aDecoder decodeObjectForKey:kClientInfoModelClientsImageData];
@@ -90,6 +106,7 @@ NSString *const kClientInfoModelRemark = @"remark";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 
+    [aCoder encodeInteger:_isNewClient forKey:kClientInfoModelIsNewClient];
     [aCoder encodeObject:_ciname forKey:kClientInfoModelCiname];
     [aCoder encodeObject:_ciphone forKey:kClientInfoModelCiphone];
     [aCoder encodeObject:_clientsImageData forKey:kClientInfoModelClientsImageData];
@@ -99,11 +116,8 @@ NSString *const kClientInfoModelRemark = @"remark";
 
 - (id)copyWithZone:(NSZone *)zone {
     ClientInfoModel *copy = [[ClientInfoModel alloc] init];
-    
-    
-    
     if (copy) {
-
+        copy.isNewClient = self.isNewClient;
         copy.ciname = [self.ciname copyWithZone:zone];
         copy.ciphone = [self.ciphone copyWithZone:zone];
         copy.clientsImageData = [self.clientsImageData copyWithZone:zone];

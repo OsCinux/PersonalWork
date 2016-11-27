@@ -88,7 +88,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     }];
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.text = self.infoModel.ciname;
-    nameLabel.font = [UIFont systemFontOfSize:25.f];
+    nameLabel.font = [UIFont systemFontOfSize:20.f];
     nameLabel.textAlignment = NSTextAlignmentCenter;
     [view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -101,10 +101,10 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     UILabel *phoneLabel = [[UILabel alloc] init];
     phoneLabel.text = self.infoModel.ciphone;
     phoneLabel.textAlignment = NSTextAlignmentCenter;
-    phoneLabel.font = [UIFont systemFontOfSize:25.f];
+    phoneLabel.font = [UIFont systemFontOfSize:20.f];
     [view addSubview:phoneLabel];
     [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(@100);
         make.height.mas_equalTo(@45);
         make.centerY.mas_equalTo(view);
         make.left.equalTo(nameLabel.mas_right).with.offset(30);
@@ -154,7 +154,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (void)showCamera {
-    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+        imagePicker.allowsEditing = YES;
+        [imagePicker setDelegate:self];
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
 }
 
 - (void)showPhotoAlbum {
@@ -183,13 +190,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token",self.ciid,@"ciid", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:kUploadImageAddress parameters:paramDic constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/jpg"];
+        [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"进度=======%f",1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"图片上传成功");
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"图片上传失败");
+        NSLog(@"error=====%@",error);
     }];
 }
 
@@ -234,8 +242,16 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     }
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
-    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    NSString *urlStr = self.photoURLStrings[indexPath.row];
+    NSURL *url = nil;
+    UIImage *image = nil;
+    if (![urlStr hasPrefix:@"/var"]) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
+       image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    }else {
+        url = [NSURL URLWithString:urlStr];
+        image = [UIImage imageWithContentsOfFile:urlStr];
+    }
     imageView.image = image;
     [cell addSubview:imageView];
     return cell;

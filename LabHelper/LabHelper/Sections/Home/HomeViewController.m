@@ -15,11 +15,9 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *guestList;
-@property (nonatomic, strong) NSMutableArray *guestInfoList;
 @property (nonatomic, strong) UIButton *addGuestButton;
 @property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) NSMutableArray *ciidList;
 
 @end
 
@@ -29,8 +27,12 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpData];
+
     [self setUpViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self setUpData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +48,7 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 - (void)setUpData {
     self.guestList = [[NSMutableArray alloc] init];
-    self.guestInfoList = [[NSMutableArray alloc] init];
+    self.ciidList = [[NSMutableArray alloc] init];
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -56,7 +58,9 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
         NSArray *modelArray = responseObject[@"ClientsData"];
         for (NSDictionary *dic in modelArray) {
             ClientModel *model = [ClientModel modelObjectWithDictionary:dic];
+            [self.ciidList addObject:model.ciId];
             [self.guestList addObject:model];
+            [self saveToLocal:self.ciidList];
         }
         [self.tableView reloadData];
         NSLog(@"获取数据成功");
@@ -67,12 +71,18 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     
 }
 
+- (void)saveToLocal:(NSMutableArray *)list {
+    NSArray *data = [NSArray arrayWithArray:list];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:data forKey:KCiidList];
+}
+
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-   
     ClientModel *model = self.guestList[indexPath.row];
     [self performSegueWithIdentifier:@"showCustomDetail" sender:model];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark UITableViewDataSource

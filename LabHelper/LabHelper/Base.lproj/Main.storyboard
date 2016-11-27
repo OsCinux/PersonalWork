@@ -198,13 +198,29 @@
                     <view key="view" contentMode="scaleToFill" id="FMT-PL-rNt">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="敬请期待该模块！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TD0-kL-qbQ">
+                                <rect key="frame" x="258" y="483" width="252" height="58"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="252" id="IkI-Rg-jzA"/>
+                                    <constraint firstAttribute="height" constant="58" id="kSD-5R-LY0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TD0-kL-qbQ" firstAttribute="centerX" secondItem="FMT-PL-rNt" secondAttribute="centerX" id="GJr-Xb-ZQb"/>
+                            <constraint firstItem="TD0-kL-qbQ" firstAttribute="centerY" secondItem="FMT-PL-rNt" secondAttribute="centerY" id="uMi-Be-1fr"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="个人中心" image="icon_setting_normal" selectedImage="icon_setting_highlight" id="xKx-tU-Vel"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cr-L4-7WN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2644" y="692"/>
+            <point key="canvasLocation" x="2643.75" y="691.9921875"/>
         </scene>
         <!--Guest Detail View Controller-->
         <scene sceneID="xSK-Ox-Hpu">
