@@ -19,9 +19,13 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @interface GuestDetailViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *detaiCollectionView;
-@property (nonatomic,strong)UICollectionViewLayout *collectionLayout;
-@property (nonatomic,strong)ClientInfoModel *infoModel;
-@property (nonatomic,strong)NSMutableArray *photoURLStrings;
+@property (nonatomic, strong)UICollectionViewLayout *collectionLayout;
+@property (nonatomic, strong)ClientInfoModel *infoModel;
+@property (nonatomic, strong)NSMutableArray *photoURLStrings;
+@property (nonatomic, strong)UIImageView *bigImageView;
+@property (nonatomic, strong)UIView *fadeBackgroundView;
+
+
 
 @end
 
@@ -58,6 +62,30 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (void)setUpViews {
+    self.fadeBackgroundView = ({
+        UIView *view = [UIView new];
+        view.alpha = 0;
+        view.backgroundColor = RGBA(14, 14, 16, 0.5);
+        [self.navigationController.view addSubview:view];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewTap:)];
+        [view addGestureRecognizer:tap];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(self.navigationController.view);
+        }];
+        view;
+        
+    });
+
+    self.bigImageView = ({
+        UIImageView *view = [UIImageView new];
+        view.contentMode = UIViewContentModeScaleAspectFit;
+        [self.fadeBackgroundView addSubview:view];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewTap:)];
+        [view addGestureRecognizer:tap];
+        view;
+    });
+    
+    
     self.collectionLayout = ({
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.itemSize = kCollectionViewItemSize;
@@ -158,7 +186,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
-        imagePicker.allowsEditing = YES;
+        imagePicker.allowsEditing = NO;
         [imagePicker setDelegate:self];
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
@@ -170,7 +198,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
         [imagePicker.navigationBar setBarStyle:UIBarStyleBlack];
-        imagePicker.allowsEditing = YES;
+        imagePicker.allowsEditing = NO;
         [imagePicker setDelegate:self];
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
@@ -183,6 +211,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
      CFRelease(uuid_ref);
      CFRelease(uuid_string_ref);
      return [uuid lowercaseString];
+}
+
+
+- (void)coverViewTap:(UITapGestureRecognizer *)tap {
+    [UIView animateWithDuration:0.2f animations:^{
+        [self.bigImageView removeFromSuperview];
+        self.fadeBackgroundView.alpha = 0;
+     }];
 }
 
 - (void)uploadImageToServerWithImgData:(NSData *)data fileName:(NSString *)fileName {
@@ -201,9 +237,33 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     }];
 }
 
+//压缩图片质量
+-(UIImage *)reduceImage:(UIImage *)image percent:(float)percent
+{
+    NSData *imageData = UIImageJPEGRepresentation(image, percent);
+    UIImage *newImage = [UIImage imageWithData:imageData];
+    return newImage;
+}
+//压缩图片尺寸
+- (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 #pragma mark UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    image = [self reduceImage:image percent:1];
+    CGSize imageSize = image.size;
+    imageSize.height = image.size.height*0.5;
+    imageSize.width = image.size.width*0.5;
+    image = [self imageWithImageSimple:image scaledToSize:imageSize];
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.7);
     NSString *imageName = [[self uniqueString] stringByAppendingPathExtension:@"jpg"];
     NSString *targetPath = [kClientImageFolder stringByAppendingPathComponent:imageName];
     
@@ -217,11 +277,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         if (success) {
             [self.photoURLStrings addObject:targetPath];
         }
-        [self uploadImageToServerWithImgData:imageData fileName:imageName];
         [self.detaiCollectionView reloadData];
-
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self uploadImageToServerWithImgData:imageData fileName:imageName];
+        });
+        
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 #pragma UICollectionViewDataSource
@@ -239,6 +302,12 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDetailIndetifier forIndexPath:indexPath];
     if (!cell) {
         cell = [[UICollectionViewCell alloc] init];
+    }
+    for (UIView *view in cell.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *imgView = (UIImageView *)view;
+            [imgView removeFromSuperview];
+        }
     }
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -271,6 +340,28 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *urlStr = self.photoURLStrings[indexPath.row];
+    NSURL *url = nil;
+    UIImage *image = nil;
+    if (![urlStr hasPrefix:@"/var"]) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
+        image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    }else {
+        url = [NSURL URLWithString:urlStr];
+        image = [UIImage imageWithContentsOfFile:urlStr];
+    }
+    [UIView animateWithDuration:0.2f animations:^{
+        self.fadeBackgroundView.alpha = 1;
+        self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
+        self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.bigImageView.center = self.view.center;
+        self.bigImageView.image = image;
+        [self.fadeBackgroundView addSubview:self.bigImageView];
+    }];
+    
+
+}
 
 /*
  #pragma mark - Navigation
