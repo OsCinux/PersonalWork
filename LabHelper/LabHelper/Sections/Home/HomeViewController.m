@@ -28,7 +28,8 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.guestList = [[NSMutableArray alloc] init];
+    self.ciidList = [[NSMutableArray alloc] init];
     [self setUpViews];
 }
 
@@ -44,12 +45,17 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 - (void)setUpViews {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    __weak __typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf setUpData];
+    }];
+    [self.tableView.mj_header beginRefreshing];
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)setUpData {
-    self.guestList = [[NSMutableArray alloc] init];
-    self.ciidList = [[NSMutableArray alloc] init];
+    [self.guestList removeAllObjects];
+    [self.ciidList  removeAllObjects];
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -67,6 +73,7 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
                 [self.guestList addObject:model];
                 [self saveToLocal:self.ciidList];
             }
+            [self.tableView.mj_header endRefreshing];
             [self.tableView reloadData];
             NSLog(@"获取数据成功");
         }

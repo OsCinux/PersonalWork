@@ -22,7 +22,7 @@
 #define KDisplayClientImageAddress              @"http://202.115.207.95:8080/image/"
 
 #define kClientImageFolder   [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"imageFolder"]
-#define kCollectionViewItemSize                CGSizeMake(160, 120)
+
 // 定义颜色简便方法
 #define RGB(r,g,b)        [UIColor colorWithRed:r / 255.f green:g / 255.f blue:b / 255.f alpha:1.f]
 #define RGBA(r,g,b,a)     [UIColor colorWithRed:r / 255.f green:g / 255.f blue:b / 255.f alpha:a]

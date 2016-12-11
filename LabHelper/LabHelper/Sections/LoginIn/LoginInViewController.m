@@ -57,7 +57,6 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
         }];
 }
 
-
 /**
  拿到密码生成进行两次md5,并与返回的token2拼接，在进行md5
 
@@ -70,7 +69,6 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
     NSString *newToken = [NSString stringWithFormat:@"%@%@",doubleTimesMD5WithPasswordString,token2];
     return  [NSString md5StringForString:newToken];
 }
-
 
 /**
  登录
@@ -120,7 +118,6 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
     }];
 }
 
-
 - (void)showHUDWithMessage:(NSString *)message {
     dispatch_async(dispatch_get_main_queue(), ^{
         MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
@@ -128,7 +125,6 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
         hud.label.text = message;
     });
 }
-
 
 - (BOOL)isNetWorkReachable
 {
@@ -174,6 +170,18 @@ typedef void(^loginCompleteHandler)(BOOL reslut,NSString *description);
     return isReachable;
     
 }
+
+#pragma mark - Private
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (self.userNameTextField.isFirstResponder) {
+        [self.userNameTextField resignFirstResponder];
+    }
+    if (self.passWordTextField.isFirstResponder) {
+        [self.passWordTextField resignFirstResponder];
+    }
+
+}
+
 
 #pragma mark - Navigation
 

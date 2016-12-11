@@ -9,7 +9,7 @@
 #import "GuestDetailViewController.h"
 #import "ClientInfoModel.h"
 
-#define kItemEageInsets  UIEdgeInsetsMake(10, 30, 0, 30)
+#define kItemEageInsets  UIEdgeInsetsMake(0, 10, 0, 10)
 
 static NSString *const kDetailIndetifier = @"kDetailIndetifier";
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
@@ -88,14 +88,16 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     
     self.collectionLayout = ({
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.itemSize = kCollectionViewItemSize;
+        CGFloat itemWidth = (kScreenWidth - 20) / 3 -20;
+        CGFloat itemHeight = itemWidth;
+        layout.itemSize =  CGSizeMake(itemWidth, itemHeight);
         layout.sectionInset = kItemEageInsets;
         layout.sectionHeadersPinToVisibleBounds = YES;
         layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 100);
         layout.footerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 160);
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        layout.minimumInteritemSpacing = 50;
-        layout.minimumLineSpacing = 50;
+        layout.minimumInteritemSpacing = 10;
+        layout.minimumLineSpacing = 10;
         layout;
     });
     self.detaiCollectionView.collectionViewLayout  = self.collectionLayout;
@@ -295,7 +297,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.photoURLStrings.count;
+    return 10;//self.photoURLStrings.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
