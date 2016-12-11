@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "GuestDetailViewController.h"
 #import "ClientModel.h"
+#import "LoginInViewController.h"
 
 
 static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
@@ -55,15 +56,20 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     [manager GET:KGetGuestListAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSArray *modelArray = responseObject[@"ClientsData"];
-        for (NSDictionary *dic in modelArray) {
-            ClientModel *model = [ClientModel modelObjectWithDictionary:dic];
-            [self.ciidList addObject:model.ciId];
-            [self.guestList addObject:model];
-            [self saveToLocal:self.ciidList];
+        NSString *string = [responseObject objectForKey:@"remark"];
+        if ([string isEqualToString:@"帐号或密码错误"]) {//此时代表token过期
+            [self handleTokenOverTime];
+        }else {
+            NSArray *modelArray = responseObject[@"ClientsData"];
+            for (NSDictionary *dic in modelArray) {
+                ClientModel *model = [ClientModel modelObjectWithDictionary:dic];
+                [self.ciidList addObject:model.ciId];
+                [self.guestList addObject:model];
+                [self saveToLocal:self.ciidList];
+            }
+            [self.tableView reloadData];
+            NSLog(@"获取数据成功");
         }
-        [self.tableView reloadData];
-        NSLog(@"获取数据成功");
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"获取数据失败");
@@ -75,6 +81,16 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     NSArray *data = [NSArray arrayWithArray:list];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     [user setObject:data forKey:KCiidList];
+}
+- (void)handleTokenOverTime {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"登录过期，请重新登录" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LoginInViewController *loginVC = [storyBoard instantiateViewControllerWithIdentifier:@"loginVC"];
+        [self presentViewController:loginVC animated:YES completion:nil];
+    }];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark UITableViewDelegate
