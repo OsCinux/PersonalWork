@@ -18,6 +18,7 @@
 		DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C281DE1F51000ABAEBF /* ClientModel.m */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
 		DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */; };
+		DBE9E1E41DFD49C300C449BF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBE9E1E31DFD49C300C449BF /* CoreData.framework */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
 		DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7D11DCCB24D005099B9 /* AppDelegate.m */; };
 		DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBF7B7D61DCCB24D005099B9 /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBB604B71DE5E624003D8933 /* GuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestDetailViewController.h; path = Home/GuestDetailViewController.h; sourceTree = "<group>"; };
 		DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestDetailViewController.m; path = Home/GuestDetailViewController.m; sourceTree = "<group>"; };
+		DBE9E1E31DFD49C300C449BF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DBF7B7CA1DCCB24D005099B9 /* LabHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF7B7CE1DCCB24D005099B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DBF7B7D01DCCB24D005099B9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBE9E1E41DFD49C300C449BF /* CoreData.framework in Frameworks */,
 				C8B4C57BEC88A1F2F0986712 /* libPods-LabHelper.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +85,7 @@
 		7543CC4B464748C5355AA939 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBE9E1E31DFD49C300C449BF /* CoreData.framework */,
 				D201B7D06AA0B833F79E175E /* libPods-LabHelper.a */,
 			);
 			name = Frameworks;

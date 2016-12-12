@@ -30,11 +30,8 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     [super viewDidLoad];
     self.guestList = [[NSMutableArray alloc] init];
     self.ciidList = [[NSMutableArray alloc] init];
-    [self setUpViews];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
     [self setUpData];
+    [self setUpViews];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,8 +51,6 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
 }
 
 - (void)setUpData {
-    [self.guestList removeAllObjects];
-    [self.ciidList  removeAllObjects];
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -67,6 +62,8 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
             [self handleTokenOverTime];
         }else {
             NSArray *modelArray = responseObject[@"ClientsData"];
+            [self.guestList removeAllObjects];
+            [self.ciidList  removeAllObjects];
             for (NSDictionary *dic in modelArray) {
                 ClientModel *model = [ClientModel modelObjectWithDictionary:dic];
                 [self.ciidList addObject:model.ciId];

@@ -9,14 +9,14 @@
 #import "GuestDetailViewController.h"
 #import "ClientInfoModel.h"
 
-#define kItemEageInsets  UIEdgeInsetsMake(0, 10, 0, 10)
+#define kItemEageInsets  UIEdgeInsetsMake(5, 10, 5, 10)
 
 static NSString *const kDetailIndetifier = @"kDetailIndetifier";
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
 static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 
-@interface GuestDetailViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface GuestDetailViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *detaiCollectionView;
 @property (nonatomic, strong)UICollectionViewLayout *collectionLayout;
@@ -24,8 +24,9 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @property (nonatomic, strong)NSMutableArray *photoURLStrings;
 @property (nonatomic, strong)UIImageView *bigImageView;
 @property (nonatomic, strong)UIView *fadeBackgroundView;
-
-
+@property (nonatomic, strong)UICollectionReusableView *tempHeaderView;
+@property (nonatomic, strong)UICollectionReusableView *tempFooterView;
+@property (nonatomic, assign)CGFloat tempScale;
 
 @end
 
@@ -35,6 +36,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     [super viewDidLoad];
     [self setUpData];
     [self setUpViews];
+    self.tempScale = NSNotFound;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +71,10 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         [self.navigationController.view addSubview:view];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewTap:)];
         [view addGestureRecognizer:tap];
+        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
+        pinch.delegate = self;
+        [view addGestureRecognizer:pinch];
+
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self.navigationController.view);
         }];
@@ -80,8 +86,6 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         UIImageView *view = [UIImageView new];
         view.contentMode = UIViewContentModeScaleAspectFit;
         [self.fadeBackgroundView addSubview:view];
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewTap:)];
-        [view addGestureRecognizer:tap];
         view;
     });
     
@@ -103,64 +107,77 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     self.detaiCollectionView.collectionViewLayout  = self.collectionLayout;
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderIndentifier];
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterIndentifier];
-    [self.detaiCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kDetailHeaderIndentifier];
-    [self.detaiCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kDetailFooterIndentifier];
+    [self.detaiCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kDetailIndetifier];
 }
 
 - (void)setupHeaderView:(UICollectionReusableView *)view {
-    UIImageView *QRAvatarView = [[UIImageView alloc] init];
-    QRAvatarView.image = [UIImage imageNamed:@"avator"];
-    [view addSubview:QRAvatarView];
-    [QRAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(@50);
-        make.centerY.mas_equalTo(view);
-        make.left.equalTo(view.mas_left).with.offset(kItemEageInsets.left);
-    }];
-    UILabel *nameLabel = [[UILabel alloc] init];
-    nameLabel.text = self.infoModel.ciname;
-    nameLabel.font = [UIFont systemFontOfSize:20.f];
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    [view addSubview:nameLabel];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(@100);
-        make.height.mas_equalTo(@45);
-        make.centerY.mas_equalTo(view);
-        make.left.equalTo(QRAvatarView.mas_right).with.offset(30);
-    }];
-    
-    UILabel *phoneLabel = [[UILabel alloc] init];
-    phoneLabel.text = self.infoModel.ciphone;
-    phoneLabel.textAlignment = NSTextAlignmentCenter;
-    phoneLabel.font = [UIFont systemFontOfSize:20.f];
-    [view addSubview:phoneLabel];
-    [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(@100);
-        make.height.mas_equalTo(@45);
-        make.centerY.mas_equalTo(view);
-        make.left.equalTo(nameLabel.mas_right).with.offset(30);
-    }];
-    
-    UIView *sepratorLine = [[UIView alloc] init];
-    sepratorLine.backgroundColor = [UIColor grayColor];
-    [view addSubview:sepratorLine];
-    [sepratorLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.bottom.mas_equalTo(view);
-        make.height.mas_equalTo(@1);
-    }];
+    if (self.tempHeaderView != view) {
+        self.tempHeaderView = view;
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:effect];
+        [view addSubview:blurView];
+        [blurView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(view);
+        }];
+        
+        UIImageView *QRAvatarView = [[UIImageView alloc] init];
+        QRAvatarView.image = [UIImage imageNamed:@"avator"];
+        [view addSubview:QRAvatarView];
+        [QRAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.height.mas_equalTo(@50);
+            make.centerY.mas_equalTo(view);
+            make.left.equalTo(view.mas_left).with.offset(kItemEageInsets.left);
+        }];
+        UILabel *nameLabel = [[UILabel alloc] init];
+        nameLabel.text = self.infoModel.ciname;
+        nameLabel.font = [UIFont systemFontOfSize:20.f];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        [view addSubview:nameLabel];
+        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(@100);
+            make.height.mas_equalTo(@45);
+            make.centerY.mas_equalTo(view);
+            make.left.equalTo(QRAvatarView.mas_right).with.offset(30);
+        }];
+        
+        UILabel *phoneLabel = [[UILabel alloc] init];
+        phoneLabel.text = self.infoModel.ciphone;
+        phoneLabel.textAlignment = NSTextAlignmentCenter;
+        phoneLabel.font = [UIFont systemFontOfSize:20.f];
+        [view addSubview:phoneLabel];
+        [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(@100);
+            make.height.mas_equalTo(@45);
+            make.centerY.mas_equalTo(view);
+            make.left.equalTo(nameLabel.mas_right).with.offset(30);
+        }];
+        
+        UIView *sepratorLine = [[UIView alloc] init];
+        sepratorLine.backgroundColor = [UIColor grayColor];
+        [view addSubview:sepratorLine];
+        [sepratorLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.bottom.mas_equalTo(view);
+            make.height.mas_equalTo(@1);
+        }];
+
+    }
 }
 
 - (void)setupFooterView:(UICollectionReusableView *)view {
-    UIButton *addButton = [[UIButton alloc] init];
-    [addButton setImage:[UIImage imageNamed:@"btn_add_normal"] forState:UIControlStateNormal];
-    [addButton setImage:[UIImage imageNamed:@"btn_add_highlight"] forState:UIControlStateHighlighted];
-    [addButton addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:addButton];
-    [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view).with.offset(10);
-        make.height.mas_equalTo(@150);
-        make.left.equalTo(view.mas_left).with.offset(kItemEageInsets.left-8);
-        make.width.mas_equalTo(@150);
-    }];
+    if (self.tempFooterView != view) {
+        UIButton *addButton = [[UIButton alloc] init];
+        [addButton setImage:[UIImage imageNamed:@"btn_add_normal"] forState:UIControlStateNormal];
+        [addButton setImage:[UIImage imageNamed:@"btn_add_highlight"] forState:UIControlStateHighlighted];
+        [addButton addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:addButton];
+        [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view).with.offset(10);
+            make.height.mas_equalTo(@60);
+            make.left.equalTo(view.mas_left).with.offset(kItemEageInsets.left-8);
+            make.width.mas_equalTo(@60);
+        }];
+
+    }
 }
 
 - (void)addAction:(UIButton *)sender {
@@ -215,12 +232,27 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
      return [uuid lowercaseString];
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
+        if (self.tempScale != NSNotFound) {
+            UIPinchGestureRecognizer *pinch = (UIPinchGestureRecognizer *)gestureRecognizer;
+            pinch.scale = self.tempScale;
+        }
+    }
+    return YES;
+}
 
 - (void)coverViewTap:(UITapGestureRecognizer *)tap {
     [UIView animateWithDuration:0.2f animations:^{
         [self.bigImageView removeFromSuperview];
         self.fadeBackgroundView.alpha = 0;
      }];
+}
+
+- (void)pinchView:(UIPinchGestureRecognizer *)sender{
+    self.bigImageView.transform = CGAffineTransformMakeScale(sender.scale, sender.scale);
+    self.bigImageView.transform = CGAffineTransformScale(sender.view.transform, sender.scale, sender.scale);
+    self.tempScale = sender.scale;
 }
 
 - (void)uploadImageToServerWithImgData:(NSData *)data fileName:(NSString *)fileName {
@@ -258,6 +290,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    NSLog(@"选择完毕");
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [self reduceImage:image percent:1];
     CGSize imageSize = image.size;
@@ -286,6 +319,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"okkkk");
     
 }
 
@@ -297,7 +331,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;//self.photoURLStrings.count;
+    return self.photoURLStrings.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -329,17 +363,17 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *view = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *view =  [self.detaiCollectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kDetailHeaderIndentifier forIndexPath:indexPath];
+        view =  [self.detaiCollectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kDetailHeaderIndentifier forIndexPath:indexPath];
         [self setupHeaderView:view];
-        return view;
         
-    }else {
-        UICollectionReusableView *view =  [self.detaiCollectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kDetailFooterIndentifier forIndexPath:indexPath];
+    } else {
+        view =  [self.detaiCollectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kDetailFooterIndentifier forIndexPath:indexPath];
         [self setupFooterView:view];
-        return view;
+        
     }
-    
+    return view;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
