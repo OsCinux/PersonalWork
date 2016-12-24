@@ -220,19 +220,25 @@
 }
 
 - (void)showAlertViewWithMessage:(NSString *)ciid {
+    self.isQRCodeCaptured = YES;
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", ciid, @"ciid", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSLog(@"请求请求请求================");
     [manager GET:KGetGuestInfoAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+        
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = responseObject;
         self.infoModel = [[ClientInfoModel alloc] initWithDictionary:dic];
+        NSLog(@"进入进入进入");
         switch (self.infoModel.isNewClient) {
             case 0://无此用户
                   {
                       UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"无此用户" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                       alertView.delegate = self;
+                     
                       [alertView show];
                   }
                 break;
