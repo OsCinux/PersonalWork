@@ -17,6 +17,8 @@
 		DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C181DE0124C00ABAEBF /* QRScanView.m */; };
 		DB945C291DE1F51000ABAEBF /* ClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB945C281DE1F51000ABAEBF /* ClientModel.m */; };
 		DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBA66F171DD8B41A0059F7FF /* Assets.xcassets */; };
+		DBB526A11E12B770000C0EF5 /* DetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB5269F1E12B770000C0EF5 /* DetailCollectionViewCell.m */; };
+		DBB526A21E12B770000C0EF5 /* DetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBB526A01E12B770000C0EF5 /* DetailCollectionViewCell.xib */; };
 		DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */; };
 		DBE9E1E41DFD49C300C449BF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBE9E1E31DFD49C300C449BF /* CoreData.framework */; };
 		DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF7B7CE1DCCB24D005099B9 /* main.m */; };
@@ -48,6 +50,9 @@
 		DB945C271DE1F51000ABAEBF /* ClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientModel.h; sourceTree = "<group>"; };
 		DB945C281DE1F51000ABAEBF /* ClientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientModel.m; sourceTree = "<group>"; };
 		DBA66F171DD8B41A0059F7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DBB5269E1E12B770000C0EF5 /* DetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCollectionViewCell.h; sourceTree = "<group>"; };
+		DBB5269F1E12B770000C0EF5 /* DetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCollectionViewCell.m; sourceTree = "<group>"; };
+		DBB526A01E12B770000C0EF5 /* DetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		DBB604B71DE5E624003D8933 /* GuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuestDetailViewController.h; path = Home/GuestDetailViewController.h; sourceTree = "<group>"; };
 		DBB604B81DE5E624003D8933 /* GuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuestDetailViewController.m; path = Home/GuestDetailViewController.m; sourceTree = "<group>"; };
 		DBE9E1E31DFD49C300C449BF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -190,6 +195,9 @@
 		DB945C211DE0325A00ABAEBF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DBB5269E1E12B770000C0EF5 /* DetailCollectionViewCell.h */,
+				DBB5269F1E12B770000C0EF5 /* DetailCollectionViewCell.m */,
+				DBB526A01E12B770000C0EF5 /* DetailCollectionViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -314,6 +322,7 @@
 				DBF7B7DD1DCCB24D005099B9 /* LaunchScreen.storyboard in Resources */,
 				DBA66F181DD8B41A0059F7FF /* Assets.xcassets in Resources */,
 				DBF7B7D81DCCB24D005099B9 /* Main.storyboard in Resources */,
+				DBB526A21E12B770000C0EF5 /* DetailCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +384,7 @@
 				DB73ED131DEB1CE200657964 /* ClientInfoModel.m in Sources */,
 				DBB604B91DE5E624003D8933 /* GuestDetailViewController.m in Sources */,
 				DBF7B7D21DCCB24D005099B9 /* AppDelegate.m in Sources */,
+				DBB526A11E12B770000C0EF5 /* DetailCollectionViewCell.m in Sources */,
 				DB945C161DE0115900ABAEBF /* QRScanViewController.m in Sources */,
 				DB945C191DE0124C00ABAEBF /* QRScanView.m in Sources */,
 				DBF7B7CF1DCCB24D005099B9 /* main.m in Sources */,

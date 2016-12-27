@@ -9,7 +9,7 @@
 #import "GuestDetailViewController.h"
 #import "ClientInfoModel.h"
 
-#define kItemEageInsets  UIEdgeInsetsMake(5, 10, 5, 10)
+#define kItemEageInsets  UIEdgeInsetsMake(10, 10, 10, 10)
 
 static NSString *const kDetailIndetifier = @"kDetailIndetifier";
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
@@ -27,6 +27,9 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @property (nonatomic, strong)UICollectionReusableView *tempHeaderView;
 @property (nonatomic, strong)UICollectionReusableView *tempFooterView;
 @property (nonatomic, assign)CGFloat tempScale;
+@property (nonatomic, strong)UIButton *cameraBtn;
+@property (nonatomic, strong)UIButton *albumBtn;
+@property (nonatomic, strong)NSMutableArray *localImages;
 
 @end
 
@@ -61,6 +64,21 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         [self.detaiCollectionView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     }];
+    [self readImageFromLocal];
+
+}
+
+
+- (void)readImageFromLocal {
+    NSFileManager *manager = [NSFileManager defaultManager];
+    self.localImages = [[NSMutableArray alloc] init];
+    NSArray *subStrings = [manager contentsOfDirectoryAtPath:kClientImageFolder error:nil];
+    for (NSString *string in subStrings) {
+        NSString *path = [kClientImageFolder stringByAppendingPathComponent:string];
+        UIImage *uimage = [UIImage imageWithContentsOfFile:path];
+        [self.localImages addObject:uimage];
+    }
+    
 }
 
 - (void)setUpViews {
@@ -98,7 +116,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         layout.sectionInset = kItemEageInsets;
         layout.sectionHeadersPinToVisibleBounds = YES;
         layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 100);
-        layout.footerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 160);
+        layout.footerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 60);
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         layout.minimumInteritemSpacing = 10;
         layout.minimumLineSpacing = 10;
@@ -165,16 +183,47 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 - (void)setupFooterView:(UICollectionReusableView *)view {
     if (self.tempFooterView != view) {
-        UIButton *addButton = [[UIButton alloc] init];
-        [addButton setImage:[UIImage imageNamed:@"btn_add_normal"] forState:UIControlStateNormal];
-        [addButton setImage:[UIImage imageNamed:@"btn_add_highlight"] forState:UIControlStateHighlighted];
-        [addButton addTarget:self action:@selector(addAction:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:addButton];
-        [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view).with.offset(10);
-            make.height.mas_equalTo(@60);
-            make.left.equalTo(view.mas_left).with.offset(kItemEageInsets.left-8);
-            make.width.mas_equalTo(@60);
+        self.tempFooterView = view;
+        UIView *sepratorLine = [[UIView alloc] init];
+        sepratorLine.backgroundColor = [UIColor grayColor];
+        [view addSubview:sepratorLine];
+        [sepratorLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.top.mas_equalTo(view);
+            make.height.mas_equalTo(@1);
+        }];
+        self.cameraBtn = [[UIButton alloc] init];
+        [_cameraBtn setTitle:@"相机" forState: UIControlStateNormal];
+        [_cameraBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [_cameraBtn addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:_cameraBtn];
+        
+        self.albumBtn = [[UIButton alloc] init];
+        [_albumBtn setTitle:@"相册" forState:UIControlStateNormal];
+        [_albumBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [_albumBtn addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:_albumBtn];
+        
+        UIButton *editBtn = [[UIButton alloc] init];
+        [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+        [editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [editBtn addTarget:self action:@selector(editPic) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:editBtn];
+        
+        [_albumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(view);
+            make.height.width.mas_equalTo(60);
+            make.right.equalTo(view.mas_right).with.offset(-25);
+        }];
+        
+        [_cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(view);
+            make.left.equalTo(view.mas_left).with.offset(25);
+            make.width.height.mas_equalTo(60);
+        }];
+        
+        [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.centerX.mas_equalTo(view);
+            make.width.height.mas_equalTo(60);
         }];
 
     }
@@ -288,7 +337,22 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     return newImage;
 }
 
+#pragma mark Actions 
+
+- (void)editPic {
+    
+}
+
+- (void)deleteItemWithSender:(UIButton *)btn {
+    UICollectionViewCell *cell = (UICollectionViewCell *)btn.superview;
+    NSIndexPath *index = [self.detaiCollectionView indexPathForCell:cell];
+    [self.photoURLStrings removeObjectAtIndex:index.row];
+    [self.detaiCollectionView deleteItemsAtIndexPaths:@[index]];
+    
+}
+
 #pragma mark UIImagePickerControllerDelegate
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     NSLog(@"选择完毕");
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -319,7 +383,6 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"okkkk");
     
 }
 
@@ -358,7 +421,12 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         image = [UIImage imageWithContentsOfFile:urlStr];
     }
     imageView.image = image;
+    UIButton *deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(cell.bounds.size.width - 15, 0, 15, 15)];
+    [deleteBtn setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+    [deleteBtn addTarget:self action:@selector(deleteItemWithSender:) forControlEvents:UIControlEventTouchUpInside];
     [cell addSubview:imageView];
+    [cell addSubview:deleteBtn];
+
     return cell;
 }
 
@@ -387,7 +455,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         url = [NSURL URLWithString:urlStr];
         image = [UIImage imageWithContentsOfFile:urlStr];
     }
-    [UIView animateWithDuration:0.2f animations:^{
+    [UIView animateWithDuration:0.1f animations:^{
         self.fadeBackgroundView.alpha = 1;
         self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
         self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;

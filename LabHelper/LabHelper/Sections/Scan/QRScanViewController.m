@@ -152,7 +152,6 @@
         [self showAlertViewWithMessage:feature.messageString];
         [picker dismissViewControllerAnimated:YES completion:nil];
     } else {
-        NSLog(@"没有二维码");
         [picker dismissViewControllerAnimated:YES completion:NULL];
     }
 }
