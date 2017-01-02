@@ -97,6 +97,11 @@ static NSString *kGuestCellResueIdentifier = @"kGuestCellResueIdentifier";
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+#pragma mark - Public
+- (void)refreshData {
+    [self setUpData];
+}
+
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

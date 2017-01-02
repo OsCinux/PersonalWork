@@ -7,11 +7,11 @@
 //
 
 #import "GuestDetailViewController.h"
+#import "DetailCollectionViewCell.h"
 #import "ClientInfoModel.h"
 
 #define kItemEageInsets  UIEdgeInsetsMake(10, 10, 10, 10)
 
-static NSString *const kDetailIndetifier = @"kDetailIndetifier";
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
 static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
@@ -30,10 +30,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @property (nonatomic, strong)UIButton *cameraBtn;
 @property (nonatomic, strong)UIButton *albumBtn;
 @property (nonatomic, strong)NSMutableArray *localImages;
+@property (nonatomic, assign)BOOL isEditingStatus;
+@property (nonatomic, strong)UIBarButtonItem *rightItem;
 
 @end
 
 @implementation GuestDetailViewController
+
+#pragma mark - Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,7 +50,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Private Settings
+#pragma mark - Private - Setings and Gettings
 
 - (void)setUpData {
     self.photoURLStrings = [[NSMutableArray alloc] init];
@@ -68,19 +72,6 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 }
 
-
-- (void)readImageFromLocal {
-    NSFileManager *manager = [NSFileManager defaultManager];
-    self.localImages = [[NSMutableArray alloc] init];
-    NSArray *subStrings = [manager contentsOfDirectoryAtPath:kClientImageFolder error:nil];
-    for (NSString *string in subStrings) {
-        NSString *path = [kClientImageFolder stringByAppendingPathComponent:string];
-        UIImage *uimage = [UIImage imageWithContentsOfFile:path];
-        [self.localImages addObject:uimage];
-    }
-    
-}
-
 - (void)setUpViews {
     self.fadeBackgroundView = ({
         UIView *view = [UIView new];
@@ -92,14 +83,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchView:)];
         pinch.delegate = self;
         [view addGestureRecognizer:pinch];
-
+        
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(self.navigationController.view);
         }];
         view;
         
     });
-
+    
     self.bigImageView = ({
         UIImageView *view = [UIImageView new];
         view.contentMode = UIViewContentModeScaleAspectFit;
@@ -122,10 +113,15 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         layout.minimumLineSpacing = 10;
         layout;
     });
+    
+    self.rightItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancleEditPic)];
+    self.navigationItem.rightBarButtonItem = self.rightItem;
+    
     self.detaiCollectionView.collectionViewLayout  = self.collectionLayout;
+    UINib *cellNib = [UINib nibWithNibName:@"DetailCollectionViewCell" bundle:nil];
+    [self.detaiCollectionView registerNib:cellNib forCellWithReuseIdentifier:NSStringFromClass([DetailCollectionViewCell class])];
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderIndentifier];
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterIndentifier];
-    [self.detaiCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kDetailIndetifier];
 }
 
 - (void)setupHeaderView:(UICollectionReusableView *)view {
@@ -177,7 +173,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
             make.width.bottom.mas_equalTo(view);
             make.height.mas_equalTo(@1);
         }];
-
+        
     }
 }
 
@@ -225,8 +221,22 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
             make.centerY.centerX.mas_equalTo(view);
             make.width.height.mas_equalTo(60);
         }];
-
+        
     }
+}
+
+#pragma mark - Private - Methods
+
+- (void)readImageFromLocal {
+    NSFileManager *manager = [NSFileManager defaultManager];
+    self.localImages = [[NSMutableArray alloc] init];
+    NSArray *subStrings = [manager contentsOfDirectoryAtPath:kClientImageFolder error:nil];
+    for (NSString *string in subStrings) {
+        NSString *path = [kClientImageFolder stringByAppendingPathComponent:string];
+        UIImage *uimage = [UIImage imageWithContentsOfFile:path];
+        [self.localImages addObject:uimage];
+    }
+    
 }
 
 - (void)addAction:(UIButton *)sender {
@@ -351,6 +361,10 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     
 }
 
+- (void)cancleEditPic {
+    
+}
+
 #pragma mark UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -398,35 +412,11 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDetailIndetifier forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UICollectionViewCell alloc] init];
-    }
-    for (UIView *view in cell.subviews) {
-        if ([view isKindOfClass:[UIImageView class]]) {
-            UIImageView *imgView = (UIImageView *)view;
-            [imgView removeFromSuperview];
-        }
-    }
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    NSString *reuseIdentifier = NSStringFromClass([DetailCollectionViewCell class]);
+    DetailCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor blueColor];
     NSString *urlStr = self.photoURLStrings[indexPath.row];
-    NSURL *url = nil;
-    UIImage *image = nil;
-    if (![urlStr hasPrefix:@"/var"]) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
-       image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-    }else {
-        url = [NSURL URLWithString:urlStr];
-        image = [UIImage imageWithContentsOfFile:urlStr];
-    }
-    imageView.image = image;
-    UIButton *deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(cell.bounds.size.width - 15, 0, 15, 15)];
-    [deleteBtn setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [deleteBtn addTarget:self action:@selector(deleteItemWithSender:) forControlEvents:UIControlEventTouchUpInside];
-    [cell addSubview:imageView];
-    [cell addSubview:deleteBtn];
-
+    [cell configWithImageURLString:urlStr];
     return cell;
 }
 
@@ -466,15 +456,5 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     
 
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

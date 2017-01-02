@@ -11,39 +11,24 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DetailCollectionViewCell">
+        <collectionViewCell hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DetailCollectionViewCell" id="gTV-IL-0wX" customClass="DetailCollectionViewCell">
             <rect key="frame" x="0.0" y="0.0" width="91" height="77"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="91" height="77"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xHz-Zd-r1M">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xHz-Zd-r1M">
                         <rect key="frame" x="0.0" y="0.0" width="91" height="77"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pXm-2v-2jd">
-                        <rect key="frame" x="73.5" y="-7.5" width="25" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="25" id="laz-TH-YtZ"/>
-                            <constraint firstAttribute="height" constant="25" id="oPh-iW-nqg"/>
-                        </constraints>
-                        <state key="normal" image="delete"/>
-                    </button>
                 </subviews>
             </view>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="pXm-2v-2jd" secondAttribute="trailing" constant="-7.5" id="9DA-9p-egi"/>
-                <constraint firstAttribute="bottom" secondItem="xHz-Zd-r1M" secondAttribute="bottom" id="GQ9-43-oXT"/>
-                <constraint firstAttribute="trailing" secondItem="xHz-Zd-r1M" secondAttribute="trailing" id="Oyf-hN-nI1"/>
-                <constraint firstItem="pXm-2v-2jd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-7.5" id="ZaD-07-iVw"/>
-                <constraint firstItem="xHz-Zd-r1M" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kQK-RS-3dx"/>
-                <constraint firstItem="xHz-Zd-r1M" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="r2n-go-97U"/>
-            </constraints>
             <size key="customSize" width="91" height="77"/>
+            <connections>
+                <outlet property="contentImageView" destination="xHz-Zd-r1M" id="xX4-fP-gQa"/>
+            </connections>
             <point key="canvasLocation" x="54.5" y="116.5"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="delete" width="15" height="15"/>
-    </resources>
 </document>

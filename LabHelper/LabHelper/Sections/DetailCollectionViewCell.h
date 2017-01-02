@@ -10,4 +10,6 @@
 
 @interface DetailCollectionViewCell : UICollectionViewCell
 
+- (void)configWithImageURLString:(NSString *)imageURLString;
+
 @end

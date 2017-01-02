@@ -173,6 +173,7 @@
         if ([vc isKindOfClass:[HomeViewController class]]) {
             [self.navigationController popToViewController:vc animated:NO];
             HomeViewController *homeVC = (HomeViewController *)vc;
+            [homeVC refreshData];
             ClientModel *model = [[ClientModel alloc] initWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:ciid,@"CiId",self.infoModel.ciname,@"CiName", nil]];
             self.isQRCodeCaptured = YES;
             [homeVC performSegueWithIdentifier:@"showCustomDetail" sender:model];
@@ -207,7 +208,7 @@
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", ciid, @"ciid",clientName,@"ciname",number,@"ciphone",nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:KuploadGuestInfo parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
+    [manager GET:KUploadGuestInfo parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"上传成功");
