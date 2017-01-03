@@ -7,14 +7,15 @@
 //
 
 #import "GuestDetailViewController.h"
-#import "DetailCollectionViewCell.h"
+#import "DetailImageCell.h"
 #import "ClientInfoModel.h"
 
 #define kItemEageInsets  UIEdgeInsetsMake(10, 10, 10, 10)
 
+
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
 static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
-
+static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 
 @interface GuestDetailViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
@@ -22,6 +23,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @property (nonatomic, strong)UICollectionViewLayout *collectionLayout;
 @property (nonatomic, strong)ClientInfoModel *infoModel;
 @property (nonatomic, strong)NSMutableArray *photoURLStrings;
+@property (nonatomic, strong)NSMutableArray *deleteURLStrings;
 @property (nonatomic, strong)UIImageView *bigImageView;
 @property (nonatomic, strong)UIView *fadeBackgroundView;
 @property (nonatomic, strong)UICollectionReusableView *tempHeaderView;
@@ -32,6 +34,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 @property (nonatomic, strong)NSMutableArray *localImages;
 @property (nonatomic, assign)BOOL isEditingStatus;
 @property (nonatomic, strong)UIBarButtonItem *rightItem;
+@property (nonatomic, strong)UIButton *editBtn;
 
 @end
 
@@ -39,11 +42,16 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 #pragma mark - Lifecycle
 
+- (void)dealloc {
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpData];
     [self setUpViews];
     self.tempScale = NSNotFound;
+    [self.deleteURLStrings addObserver:self forKeyPath:kOberverForKeyPath options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,8 +60,21 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 
 #pragma mark - Private - Setings and Gettings
 
+- (NSMutableArray *)deleteURLStrings {
+    if (!_deleteURLStrings) {
+        _deleteURLStrings = [[NSMutableArray alloc] init];
+    }
+    return _deleteURLStrings;
+}
+
+- (NSMutableArray *)photoURLStrings {
+    if (!_photoURLStrings) {
+        _photoURLStrings = [[NSMutableArray alloc] init];
+    }
+    return _photoURLStrings;
+}
+
 - (void)setUpData {
-    self.photoURLStrings = [[NSMutableArray alloc] init];
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", self.ciid, @"ciid", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -115,11 +136,10 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     });
     
     self.rightItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancleEditPic)];
-    self.navigationItem.rightBarButtonItem = self.rightItem;
-    
+
     self.detaiCollectionView.collectionViewLayout  = self.collectionLayout;
-    UINib *cellNib = [UINib nibWithNibName:@"DetailCollectionViewCell" bundle:nil];
-    [self.detaiCollectionView registerNib:cellNib forCellWithReuseIdentifier:NSStringFromClass([DetailCollectionViewCell class])];
+    UINib *cellNib = [UINib nibWithNibName:@"DetailImageCell" bundle:nil];
+    [self.detaiCollectionView registerNib:cellNib forCellWithReuseIdentifier:NSStringFromClass([DetailImageCell class])];
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDetailHeaderIndentifier];
     [self.detaiCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kDetailFooterIndentifier];
 }
@@ -199,11 +219,11 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
         [_albumBtn addTarget:self action:@selector(showPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:_albumBtn];
         
-        UIButton *editBtn = [[UIButton alloc] init];
-        [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
-        [editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [editBtn addTarget:self action:@selector(editPic) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:editBtn];
+        self.editBtn = [[UIButton alloc] init];
+        [self.editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+        [self.editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.editBtn addTarget:self action:@selector(editPic) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:self.editBtn];
         
         [_albumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(view);
@@ -217,7 +237,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
             make.width.height.mas_equalTo(60);
         }];
         
-        [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.centerX.mas_equalTo(view);
             make.width.height.mas_equalTo(60);
         }];
@@ -256,7 +276,7 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
     [alertVC addAction:cameraAction];
     [alertVC addAction:cancleAction];
     [self presentViewController:alertVC animated:YES completion:nil];
-    NSLog(@"点击添加");
+
 }
 
 - (void)showCamera {
@@ -350,7 +370,9 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 #pragma mark Actions 
 
 - (void)editPic {
-    
+   [self.deleteURLStrings removeAllObjects];
+   self.navigationItem.rightBarButtonItem = self.rightItem;
+   self.isEditingStatus = YES;
 }
 
 - (void)deleteItemWithSender:(UIButton *)btn {
@@ -362,7 +384,11 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (void)cancleEditPic {
-    
+    self.navigationItem.rightBarButtonItem = nil;
+    [self.deleteURLStrings removeAllObjects];
+    for (DetailImageCell *cell in self.detaiCollectionView.visibleCells) {
+        [cell setChoseBtnVisible:NO];
+    }
 }
 
 #pragma mark UIImagePickerControllerDelegate
@@ -412,10 +438,14 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *reuseIdentifier = NSStringFromClass([DetailCollectionViewCell class]);
-    DetailCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor blueColor];
+    NSString *reuseIdentifier = NSStringFromClass([DetailImageCell class]);
+    DetailImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     NSString *urlStr = self.photoURLStrings[indexPath.row];
+    if ([self.deleteURLStrings containsObject:urlStr]) {
+        [cell setChoseBtnVisible:YES];
+    } else {
+        [cell setChoseBtnVisible:NO];
+    }
     [cell configWithImageURLString:urlStr];
     return cell;
 }
@@ -435,26 +465,39 @@ static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *urlStr = self.photoURLStrings[indexPath.row];
-    NSURL *url = nil;
-    UIImage *image = nil;
-    if (![urlStr hasPrefix:@"/var"]) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
-        image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-    }else {
-        url = [NSURL URLWithString:urlStr];
-        image = [UIImage imageWithContentsOfFile:urlStr];
-    }
-    [UIView animateWithDuration:0.1f animations:^{
-        self.fadeBackgroundView.alpha = 1;
-        self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
-        self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.bigImageView.center = self.view.center;
-        self.bigImageView.image = image;
-        [self.fadeBackgroundView addSubview:self.bigImageView];
-    }];
-    
+    if (self.isEditingStatus) {
+        DetailImageCell *cell = (DetailImageCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        [cell setChoseBtnVisible:YES];
+        [self.deleteURLStrings addObject:[self.photoURLStrings objectAtIndex:indexPath.row]];
+        
+    } else {
+        NSString *urlStr = self.photoURLStrings[indexPath.row];
+        NSURL *url = nil;
+        UIImage *image = nil;
+        if (![urlStr hasPrefix:@"/var"]) {
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
+            image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+        }else {
+            url = [NSURL URLWithString:urlStr];
+            image = [UIImage imageWithContentsOfFile:urlStr];
+        }
+        [UIView animateWithDuration:0.1f animations:^{
+            self.fadeBackgroundView.alpha = 1;
+            self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
+            self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
+            self.bigImageView.center = self.view.center;
+            self.bigImageView.image = image;
+            [self.fadeBackgroundView addSubview:self.bigImageView];
+        }];
 
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:kOberverForKeyPath]) {
+        
+    }
 }
 
 @end

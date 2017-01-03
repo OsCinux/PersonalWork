@@ -1,29 +1,26 @@
 //
-//  DetailCollectionViewCell.m
+//  DetailImageCell.m
 //  LabHelper
 //
-//  Created by ljc on 2016/12/27.
-//  Copyright © 2016年 meitu. All rights reserved.
+//  Created by ljc on 2017/1/2.
+//  Copyright © 2017年 meitu. All rights reserved.
 //
 
-#import "DetailCollectionViewCell.h"
+#import "DetailImageCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface DetailCollectionViewCell()
+@interface DetailImageCell()
 @property (weak, nonatomic) IBOutlet UIImageView *contentImageView;
-@property (weak, nonatomic) IBOutlet UIButton *chosenButton;
-
+@property (weak, nonatomic) IBOutlet UIButton *choseBtn;
 
 @end
 
-@implementation DetailCollectionViewCell
-
-#pragma mark - Lifecycle
+@implementation DetailImageCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-   // self.chosenButton.hidden = YES;
     self.contentImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.choseBtn.hidden = YES;
 }
 
 - (void)prepareForReuse {
@@ -32,8 +29,7 @@
     [self.contentImageView sd_cancelCurrentImageLoad];
 }
 
-
-#pragma mark - Public 
+#pragma mark - Public
 
 - (void)configWithImageURLString:(NSString *)imageURLString {
     NSURL *url = nil;
@@ -42,9 +38,11 @@
     } else {
         url = [NSURL URLWithString:imageURLString];
     }
-    [self.contentImageView setImage:[UIImage imageWithContentsOfFile:imageURLString]];
-   // [self.contentImageView sd_setImageWithURL:url];
+   [self.contentImageView sd_setImageWithURL:url];
     
 }
 
+-(void)setChoseBtnVisible:(BOOL)isvisible {
+    self.choseBtn.hidden = !isvisible;
+}
 @end
