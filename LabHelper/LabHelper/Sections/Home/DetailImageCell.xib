@@ -24,6 +24,9 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7R-WH-Miu">
                         <rect key="frame" x="0.0" y="0.0" width="115" height="106"/>
                         <state key="normal" image="chose"/>
+                        <connections>
+                            <action selector="chosBtnClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="zK8-Cq-uRC"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

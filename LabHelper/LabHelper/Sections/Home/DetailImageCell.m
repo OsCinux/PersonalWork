@@ -45,4 +45,12 @@
 -(void)setChoseBtnVisible:(BOOL)isvisible {
     self.choseBtn.hidden = !isvisible;
 }
+
+- (IBAction)chosBtnClicked:(id)sender {
+    [self setChoseBtnVisible:NO];
+    if (self.actionCellClick) {
+        self.actionCellClick();
+    }
+    
+}
 @end

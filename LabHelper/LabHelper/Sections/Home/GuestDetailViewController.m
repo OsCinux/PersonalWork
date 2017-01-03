@@ -9,13 +9,14 @@
 #import "GuestDetailViewController.h"
 #import "DetailImageCell.h"
 #import "ClientInfoModel.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define kItemEageInsets  UIEdgeInsetsMake(10, 10, 10, 10)
 
 
 static NSString *const kDetailHeaderIndentifier = @"kDetailHeaderIndentifier";
 static NSString *const kDetailFooterIndentifier = @"kDetailFooterIndentifier";
-static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
+static NSString *const kOberverForKeyPath = @"deleteURLStrings";
 
 @interface GuestDetailViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
@@ -24,6 +25,7 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 @property (nonatomic, strong)ClientInfoModel *infoModel;
 @property (nonatomic, strong)NSMutableArray *photoURLStrings;
 @property (nonatomic, strong)NSMutableArray *deleteURLStrings;
+@property (nonatomic, strong)NSMutableArray *deleteIndexPathes;
 @property (nonatomic, strong)UIImageView *bigImageView;
 @property (nonatomic, strong)UIView *fadeBackgroundView;
 @property (nonatomic, strong)UICollectionReusableView *tempHeaderView;
@@ -35,6 +37,7 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 @property (nonatomic, assign)BOOL isEditingStatus;
 @property (nonatomic, strong)UIBarButtonItem *rightItem;
 @property (nonatomic, strong)UIButton *editBtn;
+@property (nonatomic, strong)NSMutableDictionary *picURLtoIDdictionary;
 
 @end
 
@@ -43,6 +46,9 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 #pragma mark - Lifecycle
 
 - (void)dealloc {
+    [self removeObserver:self forKeyPath:kOberverForKeyPath];
+    self.deleteURLStrings = nil;
+    self.deleteIndexPathes = nil;
     
 }
 
@@ -51,7 +57,7 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
     [self setUpData];
     [self setUpViews];
     self.tempScale = NSNotFound;
-    [self.deleteURLStrings addObserver:self forKeyPath:kOberverForKeyPath options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:kOberverForKeyPath options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,6 +80,19 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
     return _photoURLStrings;
 }
 
+- (NSMutableArray *)deleteIndexPathes {
+    if (!_deleteIndexPathes) {
+        _deleteIndexPathes = [[NSMutableArray alloc] init];
+    }
+    return _deleteIndexPathes;
+}
+- (NSMutableDictionary *)picURLtoIDdictionary {
+    if (!_picURLtoIDdictionary) {
+        _picURLtoIDdictionary = [[NSMutableDictionary alloc] init];
+    }
+    return _picURLtoIDdictionary;
+}
+
 - (void)setUpData {
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", self.ciid, @"ciid", nil];
@@ -85,12 +104,22 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
         self.infoModel = [[ClientInfoModel alloc] initWithDictionary:dic];
         for (NSDictionary *dic in self.infoModel.clientsImageData) {
             [self.photoURLStrings addObject:dic[@"picurl"]];
+            [self.picURLtoIDdictionary setObject:dic[@"picid"] forKey:dic[@"picurl"]];
         }
         [self.detaiCollectionView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     }];
     [self readImageFromLocal];
 
+}
+
+- (void)setEditButtonEnabled:(BOOL)enabled {
+    self.editBtn.enabled = enabled;
+    if (enabled) {
+        [self.editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    } else {
+        [self.editBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    }
 }
 
 - (void)setUpViews {
@@ -222,7 +251,7 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
         self.editBtn = [[UIButton alloc] init];
         [self.editBtn setTitle:@"编辑" forState:UIControlStateNormal];
         [self.editBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [self.editBtn addTarget:self action:@selector(editPic) forControlEvents:UIControlEventTouchUpInside];
+        [self.editBtn addTarget:self action:@selector(editPic:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:self.editBtn];
         
         [_albumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -369,23 +398,61 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 
 #pragma mark Actions 
 
-- (void)editPic {
-   [self.deleteURLStrings removeAllObjects];
-   self.navigationItem.rightBarButtonItem = self.rightItem;
-   self.isEditingStatus = YES;
+- (void)editPic:(UIButton *)sender {
+   if (self.isEditingStatus) {
+       [self deleteItems];
+   } else {
+       [[self mutableArrayValueForKey:kOberverForKeyPath] removeAllObjects];
+       self.navigationItem.rightBarButtonItem = self.rightItem;
+       self.isEditingStatus = YES;
+       [sender setTitle:@"删除" forState:UIControlStateNormal];
+       if ([self.deleteURLStrings count] <= 0) {
+           [self setEditButtonEnabled:NO];
+       }
+   }
 }
 
-- (void)deleteItemWithSender:(UIButton *)btn {
-    UICollectionViewCell *cell = (UICollectionViewCell *)btn.superview;
-    NSIndexPath *index = [self.detaiCollectionView indexPathForCell:cell];
-    [self.photoURLStrings removeObjectAtIndex:index.row];
-    [self.detaiCollectionView deleteItemsAtIndexPaths:@[index]];
-    
+- (void)deleteItems {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t uploadQueue = dispatch_get_global_queue(0, 0);
+    NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    for (NSString *picurl in self.deleteURLStrings) {
+        dispatch_group_async(group, uploadQueue, ^{
+            dispatch_group_enter(group);
+            NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", self.picURLtoIDdictionary[picurl], @"picid", nil];
+            
+            [manager GET:kDeleteImageAddress parameters:paramDic progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [self.photoURLStrings removeObject:picurl];
+                [self.deleteURLStrings removeObject:picurl];
+                NSLog(@"%@完成",picurl);
+                dispatch_group_leave(group);
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                dispatch_group_leave(group);
+            }];
+        });
+   }
+   dispatch_group_notify(group, uploadQueue, ^{
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [self.detaiCollectionView deleteItemsAtIndexPaths:self.deleteIndexPathes];
+           [self.editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+           [self setEditButtonEnabled:YES];
+           self.isEditingStatus = NO;
+           self.navigationItem.rightBarButtonItem = nil;
+           
+       });
+   });
+
 }
 
 - (void)cancleEditPic {
+    self.isEditingStatus = NO;
     self.navigationItem.rightBarButtonItem = nil;
-    [self.deleteURLStrings removeAllObjects];
+    [self.editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [self setEditButtonEnabled:YES];
+    [[self mutableArrayValueForKey:kOberverForKeyPath] removeAllObjects];
     for (DetailImageCell *cell in self.detaiCollectionView.visibleCells) {
         [cell setChoseBtnVisible:NO];
     }
@@ -394,7 +461,6 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 #pragma mark UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    NSLog(@"选择完毕");
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [self reduceImage:image percent:1];
     CGSize imageSize = image.size;
@@ -446,6 +512,10 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
     } else {
         [cell setChoseBtnVisible:NO];
     }
+    cell.actionCellClick = ^(){
+        [self.deleteIndexPathes removeObject:indexPath];
+        [[self mutableArrayValueForKey:kOberverForKeyPath] removeObject:self.photoURLStrings[indexPath.row]];
+    };
     [cell configWithImageURLString:urlStr];
     return cell;
 }
@@ -468,26 +538,24 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
     if (self.isEditingStatus) {
         DetailImageCell *cell = (DetailImageCell *)[collectionView cellForItemAtIndexPath:indexPath];
         [cell setChoseBtnVisible:YES];
-        [self.deleteURLStrings addObject:[self.photoURLStrings objectAtIndex:indexPath.row]];
+        [[self mutableArrayValueForKey:kOberverForKeyPath] addObject:[self.photoURLStrings objectAtIndex:indexPath.row]];
+        [self.deleteIndexPathes addObject:indexPath];
         
     } else {
         NSString *urlStr = self.photoURLStrings[indexPath.row];
         NSURL *url = nil;
-        UIImage *image = nil;
         if (![urlStr hasPrefix:@"/var"]) {
             url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,self.photoURLStrings[indexPath.row]]];
-            image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
         }else {
             url = [NSURL URLWithString:urlStr];
-            image = [UIImage imageWithContentsOfFile:urlStr];
         }
+        self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
+        self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.bigImageView sd_setImageWithURL:url];
+        self.bigImageView.center = self.view.center;
+        [self.fadeBackgroundView addSubview:self.bigImageView];
         [UIView animateWithDuration:0.1f animations:^{
             self.fadeBackgroundView.alpha = 1;
-            self.bigImageView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
-            self.bigImageView.contentMode = UIViewContentModeScaleAspectFit;
-            self.bigImageView.center = self.view.center;
-            self.bigImageView.image = image;
-            [self.fadeBackgroundView addSubview:self.bigImageView];
         }];
 
     }
@@ -495,9 +563,16 @@ static NSString *const kOberverForKeyPath = @"kOberverForKeyPath";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:kOberverForKeyPath]) {
-        
+    if (self.isEditingStatus) {
+        if ([keyPath isEqualToString:kOberverForKeyPath]) {
+            if ([self.deleteURLStrings count] > 0) {
+                [self setEditButtonEnabled:YES];
+            } else {
+                [self setEditButtonEnabled:NO];
+            }
+        }
     }
+   
 }
 
 @end

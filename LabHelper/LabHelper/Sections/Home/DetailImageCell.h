@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CellClickBlock)();
+
 @interface DetailImageCell : UICollectionViewCell
+
+@property(nonatomic, copy)CellClickBlock actionCellClick;
 
 - (void)configWithImageURLString:(NSString *)imageURLString ;
 
 - (void)setChoseBtnVisible:(BOOL)isvisible;
+
 
 @end

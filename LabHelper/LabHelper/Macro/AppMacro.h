@@ -17,7 +17,7 @@
 #define KUploadGuestInfo                        @"http://139.224.135.130/ClientReg.ashx"
 #define kDeleteImageAddress                     @"http://139.224.135.130/deletepic.ashx"
 #define KLoginCode                              @"d44fe"
-#define KToken                                  @"KToken"
+#define KToken                                  @"KAppToken"
 #define KUserID                                 @"KUserID"
 #define KCiidList                               @"KCiidList"
 #define KDisplayClientImageAddress              @"http://139.224.135.130/image/"
