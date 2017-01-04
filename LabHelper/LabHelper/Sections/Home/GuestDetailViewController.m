@@ -9,6 +9,7 @@
 #import "GuestDetailViewController.h"
 #import "DetailImageCell.h"
 #import "ClientInfoModel.h"
+#import <MBProgressHUD.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #define kItemEageInsets  UIEdgeInsetsMake(10, 10, 10, 10)
@@ -38,6 +39,7 @@ static NSString *const kOberverForKeyPath = @"deleteURLStrings";
 @property (nonatomic, strong)UIBarButtonItem *rightItem;
 @property (nonatomic, strong)UIButton *editBtn;
 @property (nonatomic, strong)NSMutableDictionary *picURLtoIDdictionary;
+@property (nonatomic, strong)MBProgressHUD *hud;
 
 @end
 
@@ -94,6 +96,8 @@ static NSString *const kOberverForKeyPath = @"deleteURLStrings";
 }
 
 - (void)setUpData {
+    [self.photoURLStrings removeAllObjects];
+    [self.picURLtoIDdictionary removeAllObjects];
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID], @"userid", [uts objectForKey:KToken], @"token", self.ciid, @"ciid", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -364,15 +368,27 @@ static NSString *const kOberverForKeyPath = @"deleteURLStrings";
 }
 
 - (void)uploadImageToServerWithImgData:(NSData *)data fileName:(NSString *)fileName {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+        self.hud.label.text = @"上传中";
+    });
     NSUserDefaults *uts = [NSUserDefaults standardUserDefaults];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[uts objectForKey:KUserID],@"userid",[uts objectForKey:KToken],@"token",self.ciid,@"ciid", nil];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:kUploadImageAddress parameters:paramDic constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/jpeg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.hud.progress = 1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount;
+        });
         NSLog(@"进度=======%f",1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"图片上传成功");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.hud hideAnimated:YES];
+        });       
+        [self setUpData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"图片上传失败");
         NSLog(@"error=====%@",error);
@@ -470,6 +486,7 @@ static NSString *const kOberverForKeyPath = @"deleteURLStrings";
     
     NSData *imageData = UIImageJPEGRepresentation(image, 0.7);
     NSString *imageName = [[self uniqueString] stringByAppendingPathExtension:@"jpg"];
+    imageName = [NSString stringWithFormat:@"local_%@",imageName];
     NSString *targetPath = [kClientImageFolder stringByAppendingPathComponent:imageName];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -480,9 +497,9 @@ static NSString *const kOberverForKeyPath = @"deleteURLStrings";
         }
         BOOL success = [fileManager createFileAtPath:targetPath contents:imageData attributes:nil];
         if (success) {
-            [self.photoURLStrings addObject:targetPath];
+            [self.photoURLStrings addObject:imageName];
+            [self.detaiCollectionView reloadData];
         }
-        [self.detaiCollectionView reloadData];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self uploadImageToServerWithImgData:imageData fileName:imageName];
         });

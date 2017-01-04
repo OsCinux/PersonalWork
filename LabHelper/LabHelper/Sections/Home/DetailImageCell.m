@@ -33,12 +33,14 @@
 
 - (void)configWithImageURLString:(NSString *)imageURLString {
     NSURL *url = nil;
-    if (![imageURLString hasPrefix:@"/var"]) {
+    if (![imageURLString hasPrefix:@"local_"]) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",KDisplayClientImageAddress,imageURLString]];
+        [self.contentImageView sd_setImageWithURL:url];
     } else {
-        url = [NSURL URLWithString:imageURLString];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",kClientImageFolder,imageURLString]];
+        UIImage *image = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@",kClientImageFolder,imageURLString]];
+        [self.contentImageView setImage:image];
     }
-   [self.contentImageView sd_setImageWithURL:url];
     
 }
 
